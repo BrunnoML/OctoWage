@@ -283,7 +283,7 @@ Exemplo: `feat: adiciona comparador cross-setor juiz vs professor`
 ## Proteção Legal e LGPD
 
 ### Fundamento jurídico
-O OctoWage se ampara em: LAI (Lei 12.527/2011, Art. 8º), STF Tema 483 (ARE 652.777/SP), e princípios da publicidade e transparência (CF, Art. 37). Consultar `LEGAL_ANALYSIS_v1.0.md` para análise completa.
+O OctoWage se ampara em: LAI (Lei 12.527/2011, Art. 8º), STF Tema 483 (ARE 652.777/SP), e princípios da publicidade e transparência (CF, Art. 37). Consultar `docs/LEGAL_ANALYSIS_v1.0.md` para análise completa.
 
 ### Requisitos legais do projeto
 1. **Termos de Uso** — devem existir antes do lançamento público
@@ -375,11 +375,11 @@ O OctoWage se posiciona como COMPLEMENTO, não concorrente, de ferramentas exist
 
 ## Documentação do Projeto
 
-- `ARCHITECTURE_v1.0.md` — Arquitetura técnica completa
-- `RESEARCH_supersalarios_v1.0.md` — Pesquisa sobre supersalários
-- `API_VALIDATION_v1.0.md` — Validação das fontes de dados
-- `COMPETITIVE_ANALYSIS_v1.0.md` — Análise competitiva e diferenciais
-- `LEGAL_ANALYSIS_v1.0.md` — Análise jurídica, LGPD e proteção legal
+- `docs/ARCHITECTURE_v1.0.md` — Arquitetura técnica completa
+- `docs/RESEARCH_supersalarios_v1.0.md` — Pesquisa sobre supersalários
+- `docs/API_VALIDATION_v1.0.md` — Validação das fontes de dados
+- `docs/COMPETITIVE_ANALYSIS_v1.0.md` — Análise competitiva e diferenciais
+- `docs/LEGAL_ANALYSIS_v1.0.md` — Análise jurídica, LGPD e proteção legal
 - `CLAUDE.md` — Este arquivo (instruções para o Claude)
 
 ---

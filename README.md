@@ -101,11 +101,11 @@ static/
 | Documento | Conteúdo |
 |-----------|----------|
 | `CLAUDE.md` | Instruções para o Claude (padrões, UX, regras de negócio) |
-| `ARCHITECTURE_v1.0.md` | Arquitetura técnica completa |
-| `RESEARCH_supersalarios_v1.0.md` | Pesquisa sobre supersalários no Brasil |
-| `API_VALIDATION_v1.0.md` | Validação das fontes de dados e APIs |
-| `COMPETITIVE_ANALYSIS_v1.0.md` | Análise competitiva e diferenciais |
-| `LEGAL_ANALYSIS_v1.0.md` | Análise jurídica, LGPD e proteção legal |
+| `docs/ARCHITECTURE_v1.0.md` | Arquitetura técnica completa |
+| `docs/RESEARCH_supersalarios_v1.0.md` | Pesquisa sobre supersalários no Brasil |
+| `docs/API_VALIDATION_v1.0.md` | Validação das fontes de dados e APIs |
+| `docs/COMPETITIVE_ANALYSIS_v1.0.md` | Análise competitiva e diferenciais |
+| `docs/LEGAL_ANALYSIS_v1.0.md` | Análise jurídica, LGPD e proteção legal |
 
 ## Fundamento jurídico
 
