@@ -1,0 +1,17 @@
+<!-- Fragmento HTMX: Calculadora "O Custo da Desigualdade" -->
+<div class="cost-grid">
+  {% for key, item in custo_social.items() %}
+  <div class="cost-item">
+    <p class="cost-item__number">{{ item.total_possivel|brl_int }}</p>
+    <p class="cost-item__label">{{ item.label }}</p>
+    <p class="cost-item__context">Piso de R$ {{ item.piso|brl(0) }}/mês x 13 salários</p>
+  </div>
+  {% endfor %}
+</div>
+
+<p class="text-muted mt-lg" style="font-size: 0.8rem; max-width: 640px;">
+  Cálculo simplificado: custo anual dos supersalários (R$ {{ (custo_anual / 1000000000)|brl(0) }} bi)
+  dividido pelo custo anual de cada profissional (piso x 13 meses).
+  Não inclui encargos patronais nem benefícios.
+  Fonte: <a href="https://republica.org" target="_blank" rel="noopener">República.org / Mov. Pessoas à Frente (2025)</a>.
+</p>

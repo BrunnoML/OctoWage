@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- HERO: Impacto imediato -->
+<section class="hero">
+  <div class="container">
+    <h1 class="hero__title">A desigualdade salarial do setor público, visualizada.</h1>
+    <p class="hero__subtitle">
+      Enquanto carreiras essenciais recebem pisos abaixo de R$ 6 mil,
+      uma elite de 53 mil servidores custa R$ 20 bilhões acima do teto constitucional.
+    </p>
+
+    <div class="hero__stats">
+      <div class="stat-card">
+        <p class="stat-card__value">R$ {{ (custo_anual / 1000000000)|brl(0) }} bi</p>
+        <p class="stat-card__label">Custo anual dos supersalários</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-card__value">{{ servidores_acima|brl_int }}</p>
+        <p class="stat-card__label">Servidores acima do teto</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-card__value">R$ {{ teto|brl }}</p>
+        <p class="stat-card__label">Teto constitucional</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO: Comparação Visual (Feature principal) -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-header__title">Quem ganha quanto?</h2>
+      <p class="section-header__subtitle">
+        Compare a remuneração real de diferentes carreiras públicas.
+        A linha laranja marca o teto constitucional de R$ {{ teto|brl }}.
+      </p>
+    </div>
+
+    <!-- Barras de comparação (HTMX: recarregáveis por filtro) -->
+    <div id="comparison-bars"
+         hx-get="/api/fragment/comparison-bars"
+         hx-trigger="load"
+         hx-swap="innerHTML transition:true"
+         hx-indicator="#bars-loading">
+
+      <!-- Skeleton enquanto carrega -->
+      <div id="bars-loading" class="htmx-indicator" style="display: flex; flex-direction: column; gap: 16px;">
+        {% for i in range(8) %}
+        <div style="padding: 8px;">
+          <div class="skeleton" style="height: 16px; width: {{ 120 + i * 20 }}px; margin-bottom: 8px;"></div>
+          <div class="skeleton" style="height: 28px; width: 100%;"></div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="source-badge mt-lg">
+      <span>Fontes:</span>
+      <a href="https://dadosjusbr.org" target="_blank" rel="noopener">DadosJusBr</a> ·
+      <a href="https://portaldatransparencia.gov.br" target="_blank" rel="noopener">Portal da Transparência</a> ·
+      <a href="https://republica.org" target="_blank" rel="noopener">República.org</a>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO: Raio-X (detalhe ao clicar em uma barra) -->
+<section class="section" style="background: var(--color-bg);">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-header__title">Raio-X do contracheque</h2>
+      <p class="section-header__subtitle">
+        Clique em uma carreira acima para ver a decomposição: quanto é salário base e quanto são penduricalhos.
+      </p>
+    </div>
+
+    <div id="career-detail">
+      <!-- Preenchido via HTMX ao clicar em uma barra -->
+      <div class="card text-center" style="padding: var(--space-2xl);">
+        <p style="color: var(--color-text-muted);">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 16px; display: block; opacity: 0.4;">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4M12 16h.01"/>
+          </svg>
+          Selecione uma carreira acima para ver o detalhamento.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO: O Custo da Desigualdade -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-header__title">O custo da desigualdade</h2>
+      <p class="section-header__subtitle">
+        Com os R$ {{ (custo_anual / 1000000000)|brl(0) }} bilhões gastos em supersalários por ano,
+        seria possível financiar:
+      </p>
+    </div>
+
+    <div id="cost-calculator"
+         hx-get="/api/fragment/cost-calculator"
+         hx-trigger="load"
+         hx-swap="innerHTML transition:true">
+      <!-- Skeleton -->
+      <div class="cost-grid">
+        {% for i in range(4) %}
+        <div class="cost-item">
+          <div class="skeleton" style="height: 36px; width: 160px; margin-bottom: 8px;"></div>
+          <div class="skeleton" style="height: 18px; width: 220px;"></div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO: Comparação Internacional -->
+<section class="section" style="background: var(--color-bg);">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-header__title">E no resto do mundo?</h2>
+      <p class="section-header__subtitle">
+        Proporção juiz/professor: no Brasil um juiz ganha <strong>15,9x</strong> mais que um professor.
+        Na Alemanha, essa proporção é de <strong>1,5x</strong>.
+      </p>
+    </div>
+
+    <div class="grid grid--2 grid--4-desktop" style="gap: var(--space-lg);">
+      {% for country in international %}
+      <div class="card" style="text-align: center; padding: var(--space-lg);">
+        <p style="font-size: 2rem; margin-bottom: var(--space-xs);">{{ country.flag }}</p>
+        <p style="font-weight: 700; font-size: 1.1rem; margin-bottom: var(--space-sm);">{{ country.country }}</p>
+        <p style="font-size: 2rem; font-weight: 800; color: {% if country.ratio > 10 %}var(--color-danger){% elif country.ratio > 3 %}var(--color-warning){% else %}var(--color-success){% endif %};">
+          {{ country.ratio }}x
+        </p>
+        <p class="text-muted" style="font-size: 0.8rem;">juiz vs professor</p>
+        <div style="margin-top: var(--space-md); font-size: 0.8rem; text-align: left;">
+          <p><strong>Juiz:</strong> R$ {{ country.judge_salary_brl|brl(0) }}/mês
+            {% if country.original_currency and country.original_currency != 'BRL' %}
+            <span class="text-muted">({{ country.original_currency }} {{ country.judge_original|brl(0) }})</span>
+            {% endif %}
+          </p>
+          <p><strong>Professor:</strong> R$ {{ country.teacher_salary_brl|brl(0) }}/mês
+            {% if country.original_currency and country.original_currency != 'BRL' %}
+            <span class="text-muted">({{ country.original_currency }} {{ country.teacher_original|brl(0) }})</span>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Cotações em tempo real -->
+    {% if exchange_rates %}
+    <div class="card mt-lg" style="padding: var(--space-md); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); font-size: 0.85rem;">
+      <span style="font-weight: 600; color: var(--color-text-muted);">Câmbio usado:</span>
+      {% for currency, rate in exchange_rates.items() %}
+      <span style="display: inline-flex; align-items: center; gap: 4px;">
+        {{ rate.flag }}
+        <strong>{{ currency }}/BRL:</strong>
+        R$ {{ rate.rate|brl(4) }}
+      </span>
+      {% endfor %}
+      <span class="text-muted" style="font-size: 0.75rem;">
+        Fonte:
+        {% if exchange_rates.values()|list and exchange_rates.values()|list|first %}
+          <a href="{{ (exchange_rates.values()|list|first).source_url }}" target="_blank" rel="noopener">
+            {{ (exchange_rates.values()|list|first).source }}
+          </a>
+        {% endif %}
+        · Atualizado:
+        {% for currency, rate in exchange_rates.items() %}
+          {{ rate.updated_at[:16] | replace('T', ' ') }}{% if not loop.last %},{% endif %}
+        {% endfor %}
+      </span>
+    </div>
+    {% endif %}
+
+    <div class="source-badge mt-lg">
+      <span>Fontes:</span>
+      <a href="https://dadosjusbr.org" target="_blank" rel="noopener">DadosJusBr</a> ·
+      <a href="https://www.uscourts.gov/judges-judgeships/judicial-compensation" target="_blank" rel="noopener">US Courts</a> ·
+      <a href="https://www.oecd.org/gov/government-at-a-glance/" target="_blank" rel="noopener">OECD</a> ·
+      <a href="https://economia.awesomeapi.com.br" target="_blank" rel="noopener">AwesomeAPI</a> ·
+      <a href="https://dadosabertos.bcb.gov.br" target="_blank" rel="noopener">BCB PTAX</a>
+      <span class="text-muted" style="font-size: 0.75rem; display: block; margin-top: 4px;">
+        Valores internacionais convertidos para R$ com câmbio atualizado em tempo real. Comparação aproximada.
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO: Transparência e Auditabilidade -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-header__title">Transparência e auditabilidade</h2>
+      <p class="section-header__subtitle">
+        Todos os dados podem ser verificados nas fontes originais. O OctoWage apenas agrega e visualiza informações públicas.
+      </p>
+    </div>
+
+    <div class="card" style="padding: var(--space-lg);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-lg);">
+
+        <div>
+          <h3 style="font-size: 1rem; margin-bottom: var(--space-sm);">Fontes de dados</h3>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: var(--space-xs); font-size: 0.85rem;">
+            <li>
+              <a href="https://dadosjusbr.org" target="_blank" rel="noopener" style="color: var(--color-primary-light); font-weight: 500;">DadosJusBr</a>
+              — Remuneração do Judiciário e Ministério Público
+            </li>
+            <li>
+              <a href="https://portaldatransparencia.gov.br" target="_blank" rel="noopener" style="color: var(--color-primary-light); font-weight: 500;">Portal da Transparência</a>
+              — Servidores do Executivo Federal
+            </li>
+            <li>
+              <a href="https://www.gov.br/mec" target="_blank" rel="noopener" style="color: var(--color-primary-light); font-weight: 500;">MEC</a>
+              — Piso nacional do magistério (Portaria 82/2026)
+            </li>
+            <li>
+              <a href="https://republica.org" target="_blank" rel="noopener" style="color: var(--color-primary-light); font-weight: 500;">República.org</a>
+              — Pesquisa sobre supersalários (Mov. Pessoas à Frente)
+            </li>
+            <li>
+              <a href="https://economia.awesomeapi.com.br" target="_blank" rel="noopener" style="color: var(--color-primary-light); font-weight: 500;">AwesomeAPI</a> /
+              <a href="https://dadosabertos.bcb.gov.br" target="_blank" rel="noopener" style="color: var(--color-primary-light); font-weight: 500;">BCB PTAX</a>
+              — Cotações de câmbio em tempo real
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 style="font-size: 1rem; margin-bottom: var(--space-sm);">Como auditar</h3>
+          <ol style="padding-left: 1.2rem; display: flex; flex-direction: column; gap: var(--space-xs); font-size: 0.85rem;">
+            <li>Cada valor exibido tem a <strong>fonte original</strong> linkada</li>
+            <li>Clique na fonte para verificar diretamente no site oficial</li>
+            <li>A cotação de câmbio mostra <strong>API, valor e horário</strong> da atualização</li>
+            <li>O código-fonte é <a href="https://github.com/BrunnoML/OctoWage" target="_blank" rel="noopener" style="color: var(--color-primary-light);">aberto no GitHub</a> para auditoria completa</li>
+            <li>Encontrou erro? <a href="https://github.com/BrunnoML/OctoWage/issues" target="_blank" rel="noopener" style="color: var(--color-primary-light);">Abra uma issue</a> com a correção</li>
+          </ol>
+        </div>
+
+      </div>
+
+      <p class="text-muted" style="font-size: 0.75rem; margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--color-border);">
+        O OctoWage não tem vinculação com nenhum órgão governamental. Dados públicos amparados pela
+        <abbr title="Lei de Acesso à Informação">LAI</abbr> (Lei 12.527/2011) e
+        <abbr title="Supremo Tribunal Federal">STF</abbr> Tema 483 (ARE 652.777/SP).
+        Não exibimos dados pessoais sensíveis (CPF, endereço, saúde) — apenas nome, cargo e remuneração conforme permitido.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO: CTA -->
+<section class="section text-center">
+  <div class="container">
+    <h2>Compare carreiras lado a lado</h2>
+    <p class="text-muted mb-lg" style="max-width: 500px; margin-left: auto; margin-right: auto;">
+      Veja a diferença de salário, formação exigida, jornada e risco entre qualquer par de carreiras públicas.
+    </p>
+    <div class="flex flex--center flex--wrap flex--gap-sm">
+      <a href="/comparar/professor-vs-juiz_media" class="btn btn--primary">Professor vs Juiz</a>
+      <a href="/comparar/enfermeiro-vs-procurador_mp" class="btn btn--outline">Enfermeiro vs Procurador</a>
+      <a href="/comparar/soldado_pm-vs-juiz_tjsp" class="btn btn--outline">Soldado PM vs Juiz TJSP</a>
+      <a href="/comparar/agente_pc-vs-agente_pf" class="btn btn--outline">Agente PC vs Agente PF</a>
+      <a href="/comparar/agente_pc-vs-delegado_pc" class="btn btn--outline">Agente PC vs Delegado PC</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

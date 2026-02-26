@@ -1,0 +1,26 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./app:/app/app
+      - ./static:/app/static
+    restart: unless-stopped
+
+  # Descomentar quando integrar banco de dados:
+  # postgres:
+  #   image: postgres:16-alpine
+  #   environment:
+  #     POSTGRES_DB: octowage
+  #     POSTGRES_USER: octowage
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-octowage_dev}
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+
+# volumes:
+#   pgdata:

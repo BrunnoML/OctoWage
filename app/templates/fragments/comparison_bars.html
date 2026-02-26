@@ -1,0 +1,64 @@
+<!-- Fragmento HTMX: Barras de comparação salarial -->
+{% for career in careers %}
+<div class="salary-bar"
+     hx-get="/api/fragment/career-detail/{{ career.id }}"
+     hx-target="#career-detail"
+     hx-swap="innerHTML transition:true"
+     hx-indicator="#detail-loading"
+     role="button"
+     tabindex="0"
+     aria-label="Ver detalhes: {{ career.name }} — R$ {{ career.salary_real|brl(0) }}"
+     onkeydown="if(event.key==='Enter')this.click()">
+
+  <div class="salary-bar__header">
+    <span class="salary-bar__name">{{ career.name }}</span>
+    <span class="salary-bar__value {% if career.salary_real > teto %}text-danger{% endif %}">
+      R$ {{ career.salary_real|brl(0) }}
+      {% if career.salary_real > teto %}
+        <span class="salary-bar__badge salary-bar__badge--above">
+          +{{ '{:.0f}'.format((career.salary_real - teto) / teto * 100) }}% do teto
+        </span>
+      {% elif career.salary_real < teto * 0.3 %}
+        <span class="salary-bar__badge salary-bar__badge--within">
+          {{ '{:.0f}'.format(career.salary_real / teto * 100) }}% do teto
+        </span>
+      {% endif %}
+    </span>
+  </div>
+
+  <div class="salary-bar__track">
+    {% set pct = (career.salary_real / max_salary * 100) | round(1) %}
+    {% set teto_pct = (teto / max_salary * 100) | round(1) %}
+
+    {% if career.salary_real <= teto %}
+      <!-- Dentro do teto -->
+      <div class="salary-bar__fill salary-bar__fill--within"
+           style="width: {{ pct }}%;"
+           aria-valuenow="{{ career.salary_real }}"
+           aria-valuemax="{{ max_salary }}"
+           role="progressbar">
+      </div>
+    {% else %}
+      <!-- Acima do teto: base + penduricalho -->
+      {% set base_pct = (career.salary_base / max_salary * 100) | round(1) %}
+      <div class="salary-bar__fill salary-bar__fill--above"
+           style="width: {{ pct }}%;"
+           role="progressbar"
+           aria-valuenow="{{ career.salary_real }}"
+           aria-valuemax="{{ max_salary }}">
+        <!-- Seção de penduricalhos (hachura) -->
+        <div class="salary-bar__penduricalho"
+             style="left: {{ (teto / career.salary_real * 100) | round(1) }}%; width: {{ ((career.salary_real - teto) / career.salary_real * 100) | round(1) }}%;">
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Linha do teto -->
+    <div class="salary-bar__teto-line" style="left: {{ teto_pct }}%;"></div>
+  </div>
+</div>
+{% endfor %}
+
+<p id="detail-loading" class="htmx-indicator text-center text-muted mt-md">
+  Carregando detalhes...
+</p>

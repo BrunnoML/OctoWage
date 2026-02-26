@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Env
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+
+# Data
+*.csv
+*.parquet
+data/
+
+# Logs
+*.log
+logs/
+
+# Generated files
+*.pdf
+
+# Temporary scripts
+create_*.py
+
+# Claude/Cowork
+.claude/

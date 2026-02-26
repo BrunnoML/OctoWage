@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width: 720px;">
+    <h1>Sobre o OctoWage</h1>
+
+    <p class="mt-lg">
+      O OctoWage é uma plataforma open source de transparência salarial do setor público brasileiro.
+      Nosso objetivo é tornar acessível a informação sobre a desigualdade entre supersalários
+      (Judiciário e Ministério Público) e os pisos de carreiras essenciais como professores,
+      enfermeiros e policiais.
+    </p>
+
+    <h2 class="mt-xl">Metodologia</h2>
+    <p class="mt-md">
+      Todos os dados apresentados vêm exclusivamente de fontes oficiais públicas.
+      Não estimamos nem inventamos números. Quando uma informação não está disponível,
+      ela simplesmente não é exibida.
+    </p>
+    <p>
+      Para proteger a privacidade, não exibimos agregações com amostra inferior a 10 registros.
+      Sempre diferenciamos salário bruto, líquido e real (ajustado por inflação).
+    </p>
+
+    <h2 class="mt-xl">Fontes de dados</h2>
+    <div class="mt-md" style="display: flex; flex-direction: column; gap: var(--space-md);">
+      <div class="card">
+        <p style="font-weight: 600;">DadosJusBr</p>
+        <p class="text-muted" style="font-size: 0.9rem;">Remuneração padronizada do Judiciário e Ministério Público. Projeto da Transparência Brasil.</p>
+        <a href="https://dadosjusbr.org" target="_blank" rel="noopener" style="font-size: 0.85rem;">dadosjusbr.org</a>
+      </div>
+      <div class="card">
+        <p style="font-weight: 600;">Portal da Transparência</p>
+        <p class="text-muted" style="font-size: 0.9rem;">Servidores do Executivo Federal. API oficial da CGU.</p>
+        <a href="https://portaldatransparencia.gov.br" target="_blank" rel="noopener" style="font-size: 0.85rem;">portaldatransparencia.gov.br</a>
+      </div>
+      <div class="card">
+        <p style="font-weight: 600;">República.org / Mov. Pessoas à Frente</p>
+        <p class="text-muted" style="font-size: 0.9rem;">Benchmark internacional de supersalários. Pesquisa UCSD (Sérgio Guedes-Reis).</p>
+        <a href="https://republica.org" target="_blank" rel="noopener" style="font-size: 0.85rem;">republica.org</a>
+      </div>
+    </div>
+
+    <h2 class="mt-xl">O que são penduricalhos?</h2>
+    <p class="mt-md">
+      Penduricalhos são verbas indenizatórias pagas fora do teto constitucional.
+      Incluem licenças compensatórias, gratificações por acervo processual, férias acumuladas
+      e auxílios inflados. O STF os classificou como "indevidos acréscimos de natureza
+      remuneratória dissimulados de indenização".
+    </p>
+
+    <h2 class="mt-xl">Contribua</h2>
+    <p class="mt-md">
+      O OctoWage é 100% open source. Você pode contribuir com código, reportar erros
+      ou sugerir funcionalidades no
+      <a href="https://github.com/BrunnoML/OctoWage" target="_blank" rel="noopener">GitHub</a>.
+    </p>
+    <p>
+      Faz parte da suíte <strong>Octo*</strong>, junto com o
+      <a href="https://github.com/BrunnoML/OctoMask" target="_blank" rel="noopener">OctoMask</a>
+      (anonimização de dados).
+    </p>
+  </div>
+</section>
+{% endblock %}

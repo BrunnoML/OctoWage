@@ -1,0 +1,99 @@
+<!-- Fragmento HTMX: Raio-X do contracheque de uma carreira -->
+<div class="detail-panel">
+  <div class="flex flex--between" style="flex-wrap: wrap; gap: var(--space-sm);">
+    <div>
+      <h3 style="margin-bottom: var(--space-xs);">{{ career.name }}</h3>
+      <span class="risk-tag risk-tag--{{ career.risk_level }}">
+        Risco: {{ career.risk_level | replace('_', ' ') | title }}
+      </span>
+    </div>
+    <div style="text-align: right;">
+      <p class="money money--large {% if career.salary_real > teto %}money--danger{% else %}money--success{% endif %}">
+        R$ {{ career.salary_real|brl(0) }}
+      </p>
+      <p class="text-muted" style="font-size: 0.85rem;">remuneração real mensal</p>
+    </div>
+  </div>
+
+  {% if career.penduricalhos > 0 %}
+  <!-- Decomposição do contracheque -->
+  <div class="detail-panel__decomposition">
+    <p style="font-weight: 600; margin-bottom: var(--space-md); color: var(--color-text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">
+      Decomposição do contracheque
+    </p>
+
+    <!-- Barra: Subsídio base -->
+    <div class="decomp-item">
+      <div style="flex: 0 0 auto; width: 100px;">
+        <span style="font-size: 0.85rem;">Subsídio base</span>
+      </div>
+      <div style="flex: 1; position: relative;">
+        <div class="decomp-item__bar" style="width: {{ (career.salary_base / career.salary_real * 100) | round }}%; background: var(--color-bar-teto);"></div>
+      </div>
+      <div class="decomp-item__value">
+        R$ {{ career.salary_base|brl(0) }}
+      </div>
+    </div>
+
+    <!-- Barra: Penduricalhos -->
+    <div class="decomp-item">
+      <div style="flex: 0 0 auto; width: 100px;">
+        <span style="font-size: 0.85rem; color: var(--color-danger);">Penduricalhos</span>
+      </div>
+      <div style="flex: 1; position: relative;">
+        <div class="decomp-item__bar" style="width: {{ (career.penduricalhos / career.salary_real * 100) | round }}%; background: var(--color-bar-penduricalho);"></div>
+      </div>
+      <div class="decomp-item__value" style="color: var(--color-danger);">
+        R$ {{ career.penduricalhos|brl(0) }}
+      </div>
+    </div>
+
+    <!-- Linha divisória com teto -->
+    <div style="margin: var(--space-md) 0; padding: var(--space-sm) var(--space-md); background: var(--color-danger-bg); border-radius: var(--radius-sm); border-left: 3px solid var(--color-danger);">
+      <p style="font-size: 0.9rem;">
+        <strong style="color: var(--color-danger);">R$ {{ above_teto|brl(0) }}</strong>
+        acima do teto constitucional
+        <span class="text-muted">(+{{ '{:.0f}'.format(pct_above) }}%)</span>
+      </p>
+    </div>
+  </div>
+
+  {% else %}
+  <!-- Sem penduricalhos -->
+  <div style="margin: var(--space-lg) 0; padding: var(--space-md); background: #F0FDF4; border-radius: var(--radius-sm); border-left: 3px solid var(--color-success);">
+    <p style="font-size: 0.9rem;">
+      <strong style="color: var(--color-success);">Dentro do teto.</strong>
+      Esta carreira não possui penduricalhos que ultrapassem o limite constitucional.
+    </p>
+  </div>
+  {% endif %}
+
+  <!-- Detalhes -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-top: var(--space-md);">
+    <div>
+      <p class="text-muted" style="font-size: 0.8rem;">Formação exigida</p>
+      <p style="font-weight: 500; font-size: 0.9rem;">{{ career.education }}</p>
+    </div>
+    <div>
+      <p class="text-muted" style="font-size: 0.8rem;">Jornada semanal</p>
+      <p style="font-weight: 500; font-size: 0.9rem;">{{ career.weekly_hours }}h</p>
+    </div>
+    <div>
+      <p class="text-muted" style="font-size: 0.8rem;">Salário base</p>
+      <p class="money" style="font-size: 0.9rem;">R$ {{ career.salary_base|brl(0) }}</p>
+    </div>
+    <div>
+      <p class="text-muted" style="font-size: 0.8rem;">vs Teto constitucional</p>
+      <p style="font-weight: 500; font-size: 0.9rem;">
+        {{ '{:.0f}'.format(career.salary_real / teto * 100) }}% do teto
+      </p>
+    </div>
+  </div>
+
+  <!-- Fonte -->
+  <div class="mt-lg">
+    <span class="source-badge">
+      Fonte: <a href="{{ career.source_url }}" target="_blank" rel="noopener">{{ career.source }}</a>
+    </span>
+  </div>
+</div>

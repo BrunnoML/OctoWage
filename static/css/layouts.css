@@ -1,0 +1,93 @@
+/* OctoWage — Layouts e Grid
+   Mobile-first.
+*/
+
+/* === GRID SYSTEM === */
+.grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.grid--2 { grid-template-columns: 1fr; }
+.grid--3 { grid-template-columns: 1fr; }
+
+@media (min-width: 768px) {
+  .grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .grid--3 { grid-template-columns: repeat(2, 1fr); }
+  .grid { gap: var(--space-lg); }
+}
+
+@media (min-width: 1024px) {
+  .grid--3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* === FLEX UTILITIES === */
+.flex { display: flex; }
+.flex--col { flex-direction: column; }
+.flex--wrap { flex-wrap: wrap; }
+.flex--center { align-items: center; justify-content: center; }
+.flex--between { justify-content: space-between; }
+.flex--gap-sm { gap: var(--space-sm); }
+.flex--gap-md { gap: var(--space-md); }
+
+/* === SPACING UTILITIES === */
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+.mt-xl { margin-top: var(--space-xl); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+
+/* === TEXT UTILITIES === */
+.text-center { text-align: center; }
+.text-muted { color: var(--color-text-muted); }
+.text-danger { color: var(--color-danger); }
+.text-success { color: var(--color-success); }
+
+/* === MAIN CONTENT AREA === */
+.main-content {
+  min-height: calc(100vh - 200px);
+}
+
+/* === COMPARISON LAYOUT === */
+.compare-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .compare-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+  }
+}
+
+.compare-panel {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.compare-panel--left {
+  border-top: 4px solid var(--color-primary-light);
+}
+
+.compare-panel--right {
+  border-top: 4px solid var(--color-danger);
+}
+
+.compare-vs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--color-text-muted);
+  padding: var(--space-sm) 0;
+}
+
+@media (min-width: 768px) {
+  .compare-vs { display: none; }
+}

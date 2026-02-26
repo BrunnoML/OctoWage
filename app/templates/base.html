@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page_title | default("OctoWage") }}</title>
+  <meta name="description" content="{{ page_description | default('Transparência salarial do setor público brasileiro') }}">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ page_title | default('OctoWage') }}">
+  <meta property="og:description" content="{{ page_description | default('Visualize a desigualdade salarial no setor público brasileiro.') }}">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page_title | default('OctoWage') }}">
+  <meta name="twitter:description" content="{{ page_description | default('Visualize a desigualdade salarial no setor público brasileiro.') }}">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon-16x16.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/static/css/variables.css">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/components.css">
+  <link rel="stylesheet" href="/static/css/layouts.css">
+
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="/" class="header__logo" aria-label="OctoWage — Página inicial">
+        <!-- LOGO v8: olhos só branco, sem pupila — minimalista vigilante -->
+        <svg class="header__logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Cabeça — círculo roxo sólido -->
+          <circle cx="20" cy="14" r="10" fill="#7C3AED"/>
+          <!-- Olho esquerdo — só branco, sem pupila -->
+          <ellipse cx="15.5" cy="13" rx="3" ry="2" transform="rotate(15 15.5 13)" fill="white"/>
+          <!-- Olho direito — espelhado -->
+          <ellipse cx="24.5" cy="13" rx="3" ry="2" transform="rotate(-15 24.5 13)" fill="white"/>
+          <!-- Tentáculos = 5 barras de gráfico (coladas na cabeça) -->
+          <rect x="10" y="23" width="3" height="7" rx="1.5" fill="#34D399"/>
+          <rect x="14" y="21" width="3" height="10" rx="1.5" fill="#10B981"/>
+          <rect x="18" y="19" width="3" height="13" rx="1.5" fill="#059669"/>
+          <rect x="22" y="21.5" width="3" height="9" rx="1.5" fill="#10B981"/>
+          <rect x="26" y="23.5" width="3" height="6.5" rx="1.5" fill="#34D399"/>
+        </svg>
+        <span>OctoWage</span>
+      </a>
+
+      <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false" onclick="this.nextElementSibling.classList.toggle('is-open'); this.setAttribute('aria-expanded', this.nextElementSibling.classList.contains('is-open'))">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <nav class="nav" aria-label="Navegação principal">
+        <ul class="nav__list">
+          <li><a href="/" class="nav__link{% if request.url.path == '/' %} nav__link--active{% endif %}">Visão Geral</a></li>
+          <li><a href="/comparar/professor-vs-juiz_media" class="nav__link{% if 'comparar' in request.url.path %} nav__link--active{% endif %}">Comparar</a></li>
+          <li><a href="/sobre" class="nav__link{% if request.url.path == '/sobre' %} nav__link--active{% endif %}">Sobre</a></li>
+          <li><a href="https://github.com/BrunnoML/OctoWage" class="nav__link" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div>
+          <p class="footer__title">OctoWage</p>
+          <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+            Plataforma open source de transparência salarial do setor público brasileiro.
+            Todos os dados são provenientes de fontes oficiais públicas.
+          </p>
+        </div>
+        <div>
+          <p class="footer__title">Fontes</p>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 4px;">
+            <li><a href="https://dadosjusbr.org" target="_blank" rel="noopener">DadosJusBr</a></li>
+            <li><a href="https://portaldatransparencia.gov.br" target="_blank" rel="noopener">Portal da Transparência</a></li>
+            <li><a href="https://republica.org" target="_blank" rel="noopener">República.org</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__title">Projeto</p>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 4px;">
+            <li><a href="/sobre">Metodologia</a></li>
+            <li><a href="https://github.com/BrunnoML/OctoWage" target="_blank" rel="noopener">Código fonte</a></li>
+            <li><a href="https://github.com/BrunnoML/OctoWage/issues" target="_blank" rel="noopener">Reportar erro</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>OctoWage &copy; 2026 — Dados públicos para uma democracia mais justa.</p>
+        <p style="margin-top: 4px;">Parte da suíte <a href="https://github.com/BrunnoML/OctoMask" target="_blank" rel="noopener">Octo*</a> por Brunno ML.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- VLibras — Acessibilidade em Libras (Governo Federal) -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget({ position: 'R', avatar: 'icaro' });
+  </script>
+
+  <!-- HTMX -->
+  <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="section">
+  <div class="container">
+    <div class="section-header text-center">
+      <h1 class="section-header__title">{{ career1.name }} vs {{ career2.name }}</h1>
+      <p class="section-header__subtitle" style="margin: 0 auto;">
+        Comparação detalhada: salário, formação, jornada e risco.
+      </p>
+    </div>
+
+    <!-- Comparação visual lado a lado -->
+    <div class="compare-layout mt-xl">
+
+      <!-- Carreira 1 -->
+      <div class="compare-panel compare-panel--left">
+        <h3 style="margin-bottom: var(--space-sm);">{{ career1.name }}</h3>
+        <p class="money money--large" style="color: var(--color-primary-light);">
+          R$ {{ career1.salary_real|brl(0) }}<span class="text-muted" style="font-size: 0.8rem;">/mês</span>
+        </p>
+
+        <div style="margin-top: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-md);">
+          <div>
+            <p class="text-muted" style="font-size: 0.8rem;">Salário base</p>
+            <p class="money">R$ {{ career1.salary_base|brl(0) }}</p>
+          </div>
+          <div>
+            <p class="text-muted" style="font-size: 0.8rem;">Penduricalhos</p>
+            <p class="money {% if career1.penduricalhos > 0 %}money--danger{% endif %}">
+              R$ {{ career1.penduricalhos|brl(0) }}
+            </p>
+          </div>
+          <div>
+            <p class="text-muted" style="font-size: 0.8rem;">Formação</p>
+            <p style="font-weight: 500;">{{ career1.education }}</p>
+          </div>
+          <div>
+            <p class="text-muted" style="font-size: 0.8rem;">Jornada</p>
+            <p style="font-weight: 500;">{{ career1.weekly_hours }}h/semana</p>
+          </div>
+          <div>
+            <p class="text-muted" style="font-size: 0.8rem;">Risco</p>
+            <span class="risk-tag risk-tag--{{ career1.risk_level }}">
+              {{ career1.risk_level | replace('_', ' ') | title }}
+            </span>
+          </div>
+          <div>
+            <p class="text-muted" style="font-size: 0.8rem;">vs Teto</p>
+            <p style="font-weight: 500;">{{ '{:.0f}'.format(career1.salary_real / teto * 100) }}%</p>
+          </div>
+          <div style="margin-top: var(--space-sm); padding-top: var(--space-sm); border-top: 1px solid var(--color-border);">
+            <p class="text-muted" style="font-size: 0.75rem;">
+              Fonte: <a href="{{ career1.source_url }}" target="_blank" rel="noopener" style="color: var(--color-primary-light);">{{ career1.source }}</a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- VS (mobile) -->
+      <div class="compare-vs">VS</div>
+
+      <!-- Carreira 2 -->
+      <div class="compare-panel compare-panel--right">
+        <h3 style="margin-bottom: var(--space-sm);">{{ career2.name }}</h3>
+        <p class="money money--large {% if career2.salary_real > teto %}money--danger{% endif %}">
+          R$ {{ career2.salary_real|brl(0) }}<span class="text-muted" style="font-size: 0.8rem;">/mês</span>
+        </p>
+
+        <div style="margin-top: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-md);">
+          <div>
+            <p class="text-muted" style="font-size: 0.8rem;">Salário base</p>
+            <p class="money">R$ {{ career2.salary_base|brl(0) }}</p>
+          </div>
+          <div>
+            <p class="text-muted" style="font-size: 0.8rem;">Penduricalhos</p>
+            <p class="money {% if career2.penduricalhos > 0 %}money--danger{% endif %}">
+              R$ {{ career2.penduricalhos|brl(0) }}
+            </p>
+          </div>
+          <div>
+            <p class="text-muted" style="font-size: 0.8rem;">Formação</p>
+            <p style="font-weight: 500;">{{ career2.education }}</p>
+          </div>
+          <div>
+            <p class="text-muted" style="font-size: 0.8rem;">Jornada</p>
+            <p style="font-weight: 500;">{{ career2.weekly_hours }}h/semana</p>
+          </div>
+          <div>
+            <p class="text-muted" style="font-size: 0.8rem;">Risco</p>
+            <span class="risk-tag risk-tag--{{ career2.risk_level }}">
+              {{ career2.risk_level | replace('_', ' ') | title }}
+            </span>
+          </div>
+          <div>
+            <p class="text-muted" style="font-size: 0.8rem;">vs Teto</p>
+            <p style="font-weight: 500;">{{ '{:.0f}'.format(career2.salary_real / teto * 100) }}%</p>
+          </div>
+          <div style="margin-top: var(--space-sm); padding-top: var(--space-sm); border-top: 1px solid var(--color-border);">
+            <p class="text-muted" style="font-size: 0.75rem;">
+              Fonte: <a href="{{ career2.source_url }}" target="_blank" rel="noopener" style="color: var(--color-primary-light);">{{ career2.source }}</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumo da diferença -->
+    <div class="card mt-xl text-center" style="border: 2px solid var(--color-border);">
+      {% set razao = (career2.salary_real / career1.salary_real) if career2.salary_real > career1.salary_real else (career1.salary_real / career2.salary_real) %}
+      {% set maior = career2 if career2.salary_real > career1.salary_real else career1 %}
+      {% set menor = career1 if career2.salary_real > career1.salary_real else career2 %}
+
+      <p style="font-size: 0.9rem; color: var(--color-text-muted);">
+        Um(a) <strong>{{ maior.name }}</strong> recebe
+      </p>
+      <p class="money money--large money--danger" style="margin: var(--space-sm) 0;">
+        {{ '{:.1f}'.format(razao) }}x mais
+      </p>
+      <p style="font-size: 0.9rem; color: var(--color-text-muted);">
+        que um(a) <strong>{{ menor.name }}</strong>.
+        A diferença mensal é de <strong class="money">R$ {{ (maior.salary_real - menor.salary_real)|brl(0) }}</strong>.
+      </p>
+    </div>
+
+    <!-- Outras comparações -->
+    <div class="mt-xl text-center">
+      <p class="text-muted mb-md">Outras comparações:</p>
+      <div class="flex flex--center flex--wrap flex--gap-sm">
+        <a href="/comparar/professor-vs-juiz_media" class="btn btn--sm btn--outline">Professor vs Juiz</a>
+        <a href="/comparar/enfermeiro-vs-procurador_mp" class="btn btn--sm btn--outline">Enfermeiro vs Procurador</a>
+        <a href="/comparar/soldado_pm-vs-juiz_tjsp" class="btn btn--sm btn--outline">Soldado PM vs Juiz TJSP</a>
+        <a href="/comparar/agente_pc-vs-agente_pf" class="btn btn--sm btn--outline">Agente PC vs Agente PF</a>
+        <a href="/comparar/agente_pf-vs-delegado_pf" class="btn btn--sm btn--outline">Agente PF vs Delegado PF</a>
+        <a href="/comparar/agente_pc-vs-delegado_pc" class="btn btn--sm btn--outline">Agente PC vs Delegado PC</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}
