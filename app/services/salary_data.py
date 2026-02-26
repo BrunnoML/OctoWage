@@ -55,7 +55,7 @@ class RiskAssessment:
     exposicao_violencia: int  # 0, 1 ou 2
     jornada_condicoes: int  # 0 ou 1
     justificativa: str  # Explicação em texto
-    fontes: list[str]  # Lista de fontes usadas
+    fontes: list[dict[str, str]]  # Lista de fontes: [{"nome": "...", "url": "..."}]
 
     @property
     def score(self) -> int:
@@ -138,8 +138,8 @@ CAREERS: list[CareerData] = [
                 "Score 1 = Baixo, mas próximo de Médio."
             ),
             fontes=[
-                "TJDFT — Professor em unidade de internação, adicional de insalubridade",
-                "FBSP 19º Anuário 2025 — violência nas escolas",
+                {"nome": "FBSP 19º Anuário 2025 — violência nas escolas", "url": "https://forumseguranca.org.br/wp-content/uploads/2025/07/anuario-2025.pdf"},
+                {"nome": "TJDFT — Professor em unidade de internação", "url": "https://www.tjdft.jus.br"},
             ],
         ),
         color="#3B82F6",
@@ -167,9 +167,8 @@ CAREERS: list[CareerData] = [
                 "Jornada inclui plantões 12x36 e noturnos. Score 4 = Alto."
             ),
             fontes=[
-                "NR-15 Anexo 14 — Agentes biológicos",
-                "COFEN — Adicional de insalubridade para enfermagem",
-                "TJSP Notícia 92042 — Insalubridade grau máximo durante pandemia",
+                {"nome": "NR-15 Anexo 14 — Agentes biológicos", "url": "https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-15-nr-15"},
+                {"nome": "COFEN — Insalubridade para enfermagem", "url": "https://www.cofen.gov.br"},
             ],
         ),
         color="#8B5CF6",
@@ -184,7 +183,7 @@ CAREERS: list[CareerData] = [
         salary_max=10000.00,
         penduricalhos=0,
         source="Média nacional (SENASP/MJSP)",
-        source_url="https://www.gov.br/mj/pt-br/assuntos/sua-seguranca",
+        source_url="https://www.gov.br/mj/pt-br/assuntos/sua-seguranca/seguranca-publica/estatistica",
         education="Ensino Médio + Curso de Formação",
         weekly_hours=40,
         risk_assessment=RiskAssessment(
@@ -198,9 +197,9 @@ CAREERS: list[CareerData] = [
                 "Confronto armado é parte da rotina operacional. Score 8 = Muito Alto."
             ),
             fontes=[
-                "FBSP 19º Anuário Brasileiro de Segurança Pública (2025) — policiais mortos",
-                "NR-16 — Atividades periculosas com armas de fogo",
-                "CLT Art. 193 — Adicional de periculosidade",
+                {"nome": "FBSP 19º Anuário 2025 — policiais mortos", "url": "https://forumseguranca.org.br/wp-content/uploads/2025/07/anuario-2025.pdf"},
+                {"nome": "NR-16 — Atividades periculosas", "url": "https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-16-nr-16"},
+                {"nome": "CLT Art. 193 — Periculosidade", "url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm#art193"},
             ],
         ),
         color="#06B6D4",
@@ -213,8 +212,8 @@ CAREERS: list[CareerData] = [
         salary_real=14164.00,
         salary_max=21000.00,
         penduricalhos=0,
-        source="Lei 13.333/2016 (reajuste 2025)",
-        source_url="https://www.gov.br/pf/pt-br",
+        source="Lei 13.371/2016 + Lei 14.875/2024",
+        source_url="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2016/lei/l13371.htm",
         education="Bacharelado (qualquer área)",
         weekly_hours=40,
         risk_assessment=RiskAssessment(
@@ -228,9 +227,9 @@ CAREERS: list[CareerData] = [
                 "Mesma taxa de mortalidade que PM estadual proporcionalmente. Score 8 = Muito Alto."
             ),
             fontes=[
-                "FBSP 19º Anuário 2025 — mortalidade policial (inclui PF)",
-                "Lei 13.333/2016 — Estrutura remuneratória da PF",
-                "NR-16 — Periculosidade por arma de fogo",
+                {"nome": "FBSP 19º Anuário 2025 — mortalidade policial", "url": "https://forumseguranca.org.br/wp-content/uploads/2025/07/anuario-2025.pdf"},
+                {"nome": "Lei 13.371/2016 — Remuneração PF", "url": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2016/lei/l13371.htm"},
+                {"nome": "NR-16 — Periculosidade", "url": "https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-16-nr-16"},
             ],
         ),
         color="#0EA5E9",
@@ -243,8 +242,8 @@ CAREERS: list[CareerData] = [
         salary_real=26800.00,
         salary_max=41350.00,
         penduricalhos=0,
-        source="Lei 13.333/2016 (reajuste 2025)",
-        source_url="https://www.gov.br/pf/pt-br",
+        source="Lei 13.371/2016 + Lei 14.875/2024",
+        source_url="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2016/lei/l13371.htm",
         education="Bacharelado em Direito",
         weekly_hours=40,
         risk_assessment=RiskAssessment(
@@ -258,8 +257,8 @@ CAREERS: list[CareerData] = [
                 "Menor mortalidade proporcional. Score 5 = Alto."
             ),
             fontes=[
-                "Lei 13.333/2016 — Estrutura remuneratória da PF",
-                "NR-16 — Periculosidade por arma de fogo",
+                {"nome": "Lei 13.371/2016 — Remuneração PF", "url": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2016/lei/l13371.htm"},
+                {"nome": "NR-16 — Periculosidade", "url": "https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-16-nr-16"},
             ],
         ),
         color="#2563EB",
@@ -273,7 +272,7 @@ CAREERS: list[CareerData] = [
         salary_max=13000.00,
         penduricalhos=0,
         source="Média estadual (SENASP/MJSP 2025)",
-        source_url="https://www.gov.br/mj/pt-br/assuntos/sua-seguranca",
+        source_url="https://www.gov.br/mj/pt-br/assuntos/sua-seguranca/seguranca-publica/estatistica",
         education="Bacharelado (qualquer área na maioria dos estados)",
         weekly_hours=40,
         risk_assessment=RiskAssessment(
@@ -288,9 +287,8 @@ CAREERS: list[CareerData] = [
                 "violentas do FBSP. Score 8 = Muito Alto."
             ),
             fontes=[
-                "FBSP 19º Anuário 2025 — mortalidade policial",
-                "NR-16 — Periculosidade por arma de fogo",
-                "Estatutos das Polícias Civis estaduais",
+                {"nome": "FBSP 19º Anuário 2025 — mortalidade policial", "url": "https://forumseguranca.org.br/wp-content/uploads/2025/07/anuario-2025.pdf"},
+                {"nome": "NR-16 — Periculosidade", "url": "https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-16-nr-16"},
             ],
         ),
         color="#7C3AED",
@@ -304,7 +302,7 @@ CAREERS: list[CareerData] = [
         salary_max=35000.00,
         penduricalhos=0,
         source="Média estadual (SENASP/MJSP 2025)",
-        source_url="https://www.gov.br/mj/pt-br/assuntos/sua-seguranca",
+        source_url="https://www.gov.br/mj/pt-br/assuntos/sua-seguranca/seguranca-publica/estatistica",
         education="Bacharelado em Direito",
         weekly_hours=40,
         risk_assessment=RiskAssessment(
@@ -318,8 +316,7 @@ CAREERS: list[CareerData] = [
                 "Score 5 = Alto."
             ),
             fontes=[
-                "Estatutos das Polícias Civis estaduais",
-                "NR-16 — Periculosidade por arma de fogo",
+                {"nome": "NR-16 — Periculosidade", "url": "https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-16-nr-16"},
             ],
         ),
         color="#6D28D9",
@@ -348,8 +345,8 @@ CAREERS: list[CareerData] = [
                 "mortes em serviço. Score 0 = Baixo."
             ),
             fontes=[
-                "LOMAN (LC 35/1979) — Estatuto da Magistratura",
-                "CNJ — Dados sobre a magistratura",
+                {"nome": "LOMAN (LC 35/1979) — Estatuto da Magistratura", "url": "https://www.planalto.gov.br/ccivil_03/Leis/LCP/Lcp35.htm"},
+                {"nome": "CNJ — Dados sobre a magistratura", "url": "https://www.cnj.jus.br/pesquisas-judiciarias/justica-em-numeros/"},
             ],
         ),
         color="#EF4444",
@@ -375,7 +372,10 @@ CAREERS: list[CareerData] = [
                 "Mesmo perfil de risco do juiz médio nacional. Ambiente de gabinete "
                 "com segurança institucional do TJSP. Score 0 = Baixo."
             ),
-            fontes=["LOMAN (LC 35/1979)", "CNJ — Dados sobre a magistratura"],
+            fontes=[
+                {"nome": "LOMAN (LC 35/1979)", "url": "https://www.planalto.gov.br/ccivil_03/Leis/LCP/Lcp35.htm"},
+                {"nome": "CNJ — Justiça em Números", "url": "https://www.cnj.jus.br/pesquisas-judiciarias/justica-em-numeros/"},
+            ],
         ),
         color="#DC2626",
     ),
@@ -402,8 +402,8 @@ CAREERS: list[CareerData] = [
                 "mas usamos o perfil médio. Score 0 = Baixo."
             ),
             fontes=[
-                "LONMP (Lei 8.625/1993) — Lei Orgânica do MP",
-                "CNMP — Dados sobre o Ministério Público",
+                {"nome": "LONMP (Lei 8.625/1993) — Lei Orgânica do MP", "url": "https://www.planalto.gov.br/ccivil_03/leis/l8625.htm"},
+                {"nome": "CNMP — Dados sobre o Ministério Público", "url": "https://www.cnmp.mp.br/portal/institucional/476-portal-transparencia"},
             ],
         ),
         color="#F97316",

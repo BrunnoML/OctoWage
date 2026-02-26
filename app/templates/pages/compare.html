@@ -67,7 +67,7 @@
                 <p style="margin-top: 6px;"><strong>Fontes:</strong></p>
                 <ul style="margin: 4px 0 0 16px;">
                   {% for fonte in career1.risk_assessment.fontes %}
-                  <li>{{ fonte }}</li>
+                  <li><a href="{{ fonte.url }}" target="_blank" rel="noopener" style="color: var(--color-primary-light);">{{ fonte.nome }}</a></li>
                   {% endfor %}
                 </ul>
               </div>
@@ -141,7 +141,7 @@
                 <p style="margin-top: 6px;"><strong>Fontes:</strong></p>
                 <ul style="margin: 4px 0 0 16px;">
                   {% for fonte in career2.risk_assessment.fontes %}
-                  <li>{{ fonte }}</li>
+                  <li><a href="{{ fonte.url }}" target="_blank" rel="noopener" style="color: var(--color-primary-light);">{{ fonte.nome }}</a></li>
                   {% endfor %}
                 </ul>
               </div>

@@ -25,6 +25,16 @@
       {% endif %}
     </span>
   </div>
+  <div class="salary-bar__source">
+    <a href="{{ career.source_url }}" target="_blank" rel="noopener" title="Verificar fonte: {{ career.source }}"
+       onclick="event.stopPropagation();"
+       style="color: var(--color-text-muted); font-size: 0.7rem; text-decoration: none;">
+      Fonte: {{ career.source }}
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-left: 2px;">
+        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
+      </svg>
+    </a>
+  </div>
 
   <div class="salary-bar__track">
     {% set pct = (career.salary_real / max_salary * 100) | round(1) %}

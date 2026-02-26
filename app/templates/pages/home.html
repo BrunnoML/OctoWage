@@ -58,10 +58,48 @@
     </div>
 
     <div class="source-badge mt-lg">
-      <span>Fontes:</span>
-      <a href="https://dadosjusbr.org" target="_blank" rel="noopener">DadosJusBr</a> ·
-      <a href="https://portaldatransparencia.gov.br" target="_blank" rel="noopener">Portal da Transparência</a> ·
-      <a href="https://republica.org" target="_blank" rel="noopener">República.org</a>
+      <details style="font-size: 0.8rem;">
+        <summary style="cursor: pointer; font-weight: 600; color: var(--color-text-muted);">
+          Ver todas as fontes e como cada valor foi obtido
+        </summary>
+        <div style="margin-top: var(--space-sm); padding: var(--space-md); background: var(--color-bg); border-radius: 8px; line-height: 1.8;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+            <thead>
+              <tr style="text-align: left; border-bottom: 2px solid var(--color-border);">
+                <th style="padding: 6px 8px;">Carreira</th>
+                <th style="padding: 6px 8px;">Valor usado</th>
+                <th style="padding: 6px 8px;">O que representa</th>
+                <th style="padding: 6px 8px;">Fonte oficial</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for career in careers %}
+              <tr style="border-bottom: 1px solid var(--color-border);">
+                <td style="padding: 6px 8px; font-weight: 500;">{{ career.name }}</td>
+                <td style="padding: 6px 8px;">R$ {{ career.salary_real|brl(0) }}</td>
+                <td style="padding: 6px 8px; color: var(--color-text-muted);">
+                  {% if career.penduricalhos > 0 %}
+                    Base R$ {{ career.salary_base|brl(0) }} + penduricalhos R$ {{ career.penduricalhos|brl(0) }}
+                  {% else %}
+                    Piso/subsídio base (sem penduricalhos)
+                  {% endif %}
+                </td>
+                <td style="padding: 6px 8px;">
+                  <a href="{{ career.source_url }}" target="_blank" rel="noopener" style="color: var(--color-primary-light);">
+                    {{ career.source }}
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <p style="margin-top: var(--space-sm); color: var(--color-text-muted); font-size: 0.75rem;">
+            Cada link acima leva diretamente à fonte oficial. Clique para conferir o valor na origem.
+            Para juízes e procuradores, o "salário real" inclui penduricalhos (auxílios, indenizações) reportados pelo
+            <a href="https://dadosjusbr.org" target="_blank" rel="noopener" style="color: var(--color-primary-light);">DadosJusBr</a>.
+          </p>
+        </div>
+      </details>
     </div>
   </div>
 </section>
