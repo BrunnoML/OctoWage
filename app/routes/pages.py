@@ -78,3 +78,29 @@ async def about(request: Request):
             "page_description": "Conheça o OctoWage: metodologia, fontes de dados e como contribuir.",
         },
     )
+
+
+@router.get("/termos", response_class=HTMLResponse)
+async def terms(request: Request):
+    """Termos de uso da plataforma."""
+    return templates.TemplateResponse(
+        "pages/terms.html",
+        {
+            "request": request,
+            "page_title": "Termos de Uso — OctoWage",
+            "page_description": "Termos de uso da plataforma OctoWage.",
+        },
+    )
+
+
+@router.get("/privacidade", response_class=HTMLResponse)
+async def privacy(request: Request):
+    """Política de privacidade LGPD-compliant."""
+    return templates.TemplateResponse(
+        "pages/privacy.html",
+        {
+            "request": request,
+            "page_title": "Política de Privacidade — OctoWage",
+            "page_description": "Como o OctoWage trata dados: LGPD, cookies, logs e direitos.",
+        },
+    )

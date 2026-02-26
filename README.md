@@ -7,10 +7,17 @@
 </p>
 
 <p align="center">
-  <strong>Plataforma open source de transparência salarial do setor público brasileiro.</strong>
+  <strong>Plataforma open source de transparência salarial do setor público brasileiro.</strong><br>
+  <em>Projeto acadêmico e de cidadania — sem fins lucrativos.</em>
 </p>
 
-O OctoWage visualiza a desigualdade entre supersalários (Judiciário/MP) e pisos de carreiras essenciais — professores, enfermeiros e policiais. Feito para o cidadão comum, não para desenvolvedores.
+## Por que o OctoWage existe?
+
+Os portais de transparência brasileiros (DadosJusBr, Portal da Transparência, sites dos tribunais) são ferramentas poderosas, mas foram feitas para especialistas. Um cidadão comum que quer saber "quanto ganha um juiz comparado a um professor" precisa navegar dezenas de páginas, entender siglas como "penduricalhos" e cruzar dados de fontes diferentes.
+
+O OctoWage resolve isso: agrega dados de fontes oficiais públicas e apresenta de forma visual e comparativa, para que qualquer pessoa possa entender a desigualdade salarial no setor público brasileiro e exercer o controle social previsto na Constituição.
+
+**Este projeto não tem fins lucrativos, não tem vinculação institucional com nenhum órgão público e utiliza exclusivamente dados públicos.**
 
 > Enquanto carreiras essenciais recebem pisos abaixo de R$ 6 mil, uma elite de 53 mil servidores custa R$ 20 bilhões acima do teto constitucional.
 
@@ -47,10 +54,14 @@ HTMX (~14KB) é o único JavaScript obrigatório.
 |-------|--------------|------|
 | [DadosJusBr](https://dadosjusbr.org) | Remuneração do Judiciário e MP | API |
 | [Portal da Transparência](https://portaldatransparencia.gov.br) | Servidores do Executivo Federal | API |
-| [SENASP/MJSP](https://www.gov.br/mj/pt-br/assuntos/sua-seguranca/seguranca-publica/estatistica) | Dados de segurança pública | Relatórios |
 | [MEC](https://www.gov.br/mec) | Piso do magistério | Portarias |
-| [FBSP](https://forumseguranca.org.br) | Anuário de Segurança Pública | Relatório anual |
+| [Planalto.gov.br](https://www.planalto.gov.br) | Legislação (leis de remuneração PF, enfermagem, etc.) | Legislação |
+| [FBSP](https://forumseguranca.org.br) | Anuário de Segurança Pública (mortalidade policial) | Relatório anual |
 | [AwesomeAPI](https://economia.awesomeapi.com.br) / [BCB PTAX](https://dadosabertos.bcb.gov.br) | Cotações de câmbio | API (tempo real) |
+
+### Nota sobre valores de Soldado PM, Agente PC e Delegado PC
+
+Os valores dessas carreiras são **médias nacionais estimadas** a partir de tabelas remuneratórias estaduais publicadas em diários oficiais. Não existe uma fonte federal única que consolide esses dados. A SENASP/MJSP publica estatísticas de segurança pública, mas não tabelas salariais unificadas. O cálculo foi feito cruzando editais de concursos públicos estaduais e tabelas remuneratórias disponíveis nos sites das secretarias de segurança e dos governos estaduais. Detalhes completos na [página Sobre > Metodologia salarial](./app/templates/pages/about.html).
 
 ## Quickstart
 
@@ -123,14 +134,22 @@ O OctoWage exibe apenas dados públicos amparados por:
 - **STF Tema 483** — ARE 652.777/SP (publicidade de remuneração de servidores)
 - **CF Art. 37** — Princípios da publicidade e transparência
 
-Não exibimos dados pessoais sensíveis (CPF, endereço, saúde). Atualmente trabalhamos apenas com dados agregados por carreira. Quando houver dados individualizados (fase 2), serão limitados a cargo e remuneração, conforme permitido pelo STF.
+Não exibimos dados pessoais sensíveis (CPF, endereço, saúde). Atualmente trabalhamos apenas com dados agregados por carreira. Quando houver dados individualizados (fase 2), serão limitados a cargo e remuneração, conforme permitido pelo STF. O projeto não utiliza nem acessa nenhum sistema ou ferramenta institucional de qualquer órgão público.
 
-## Ecossistema Octo*
+## Outros projetos do autor
 
 | Projeto | Descrição |
 |---------|-----------|
 | **OctoWage** | Transparência salarial do setor público (este projeto) |
 | [OctoMask](https://github.com/BrunnoML/OctoMask) | Anonimização de textos sensíveis |
+
+Ambos são projetos independentes, open source, desenvolvidos como parte do aprendizado em Sistemas de Informação.
+
+## Sobre o autor
+
+Desenvolvido por **Brunno ML** — graduando em Sistemas de Informação pela Estácio. Este projeto é parte do aprendizado acadêmico em desenvolvimento web, APIs e visualização de dados, e também um exercício de cidadania digital: facilitar o acesso a informações públicas que já existem, mas são difíceis de encontrar e comparar.
+
+Não tem vinculação com nenhuma instituição pública ou privada. Todos os dados utilizados são públicos e acessíveis a qualquer cidadão pela internet.
 
 ## Status
 
@@ -142,4 +161,4 @@ Todos os direitos reservados por enquanto. Licença open source será definida a
 
 ---
 
-Feito com dados públicos, código aberto e indignação cívica. 🇧🇷
+Feito com dados públicos, código aberto e cidadania. 🇧🇷

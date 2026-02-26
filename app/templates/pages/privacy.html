@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section">
+  <div class="container container--narrow">
+    <h1>Política de Privacidade</h1>
+    <p class="text-muted mt-md" style="font-size: 0.85rem;">Última atualização: 26 de fevereiro de 2026</p>
+
+    <h2 class="mt-xl">1. Introdução</h2>
+    <p class="mt-md">
+      O OctoWage é um projeto acadêmico e de cidadania, open source e sem fins lucrativos.
+      Esta política descreve como tratamos dados no contexto da plataforma, em conformidade
+      com a Lei Geral de Proteção de Dados (LGPD — Lei 13.709/2018).
+    </p>
+
+    <h2 class="mt-xl">2. Dados de servidores públicos</h2>
+    <p class="mt-md">
+      O OctoWage exibe dados de remuneração de servidores públicos provenientes de fontes
+      oficiais públicas. O tratamento desses dados se ampara nas seguintes bases legais da LGPD:
+    </p>
+    <ul class="mt-md" style="padding-left: 1.5rem; display: flex; flex-direction: column; gap: var(--space-sm);">
+      <li><strong>Art. 7º, IX</strong> — Legítimo interesse: controle social e transparência pública</li>
+      <li><strong>Art. 7º, V</strong> — Execução de políticas públicas (dados tornados públicos pelo próprio governo)</li>
+      <li><strong>Art. 7º, § 4º</strong> — Dados tornados manifestamente públicos pelo titular ou pelo poder público</li>
+    </ul>
+    <p class="mt-md">
+      Atualmente, o OctoWage trabalha apenas com <strong>dados agregados por carreira</strong>,
+      sem identificação individual de servidores. Não exibimos nomes, CPF, endereço, dados de
+      saúde ou qualquer informação pessoal sensível.
+    </p>
+
+    <h2 class="mt-xl">3. Dados dos visitantes</h2>
+    <p class="mt-md">
+      O OctoWage <strong>não coleta dados pessoais dos visitantes</strong>. Especificamente:
+    </p>
+    <ul class="mt-md" style="padding-left: 1.5rem; display: flex; flex-direction: column; gap: var(--space-sm);">
+      <li>Não usamos cookies de rastreamento</li>
+      <li>Não usamos Google Analytics nem ferramentas similares</li>
+      <li>Não exigimos cadastro ou login</li>
+      <li>Não coletamos e-mail, nome ou qualquer dado pessoal</li>
+      <li>Não vendemos, compartilhamos ou transferimos dados a terceiros</li>
+    </ul>
+    <p class="mt-md">
+      O servidor web pode registrar logs técnicos (endereço IP, user-agent, páginas acessadas)
+      para fins de segurança e manutenção, conforme permitido pelo Marco Civil da Internet
+      (Lei 12.965/2014, Art. 15). Esses logs são mantidos por no máximo 6 meses e não são
+      compartilhados com terceiros.
+    </p>
+
+    <h2 class="mt-xl">4. Serviços de terceiros</h2>
+    <p class="mt-md">
+      O OctoWage utiliza APIs externas para cotações de câmbio (AwesomeAPI, BCB).
+      Ao acessar a plataforma, seu navegador pode fazer requisições a esses serviços.
+      Consulte as políticas de privacidade desses serviços para mais informações.
+    </p>
+    <p>
+      A plataforma também carrega fontes do Google Fonts. Consulte a
+      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">política de privacidade do Google</a>
+      para detalhes.
+    </p>
+
+    <h2 class="mt-xl">5. Direitos do titular (LGPD)</h2>
+    <p class="mt-md">
+      Como não coletamos dados pessoais dos visitantes, os direitos previstos nos Art. 17-22
+      da LGPD (acesso, correção, exclusão, portabilidade) não se aplicam no contexto de
+      navegação da plataforma.
+    </p>
+    <p>
+      Caso dados de servidores públicos sejam individualizados em versão futura,
+      o OctoWage respeitará o direito de contestação e correção conforme a LGPD,
+      mantendo canal de contato acessível.
+    </p>
+
+    <h2 class="mt-xl">6. Segurança</h2>
+    <p class="mt-md">
+      A plataforma utiliza HTTPS em produção para proteger a comunicação entre o navegador
+      e o servidor. O código-fonte é aberto e auditável no
+      <a href="https://github.com/BrunnoML/OctoWage" target="_blank" rel="noopener">GitHub</a>.
+    </p>
+
+    <h2 class="mt-xl">7. Contato e encarregado de dados</h2>
+    <p class="mt-md">
+      Para questões sobre privacidade ou proteção de dados:
+      <a href="https://github.com/BrunnoML/OctoWage/issues" target="_blank" rel="noopener">GitHub Issues</a>.
+    </p>
+    <p>
+      Encarregado de dados (DPO): Brunno ML — contato via GitHub Issues.
+    </p>
+
+    <h2 class="mt-xl">8. Alterações</h2>
+    <p class="mt-md">
+      Esta política pode ser atualizada a qualquer momento. A data da última atualização
+      está indicada no topo desta página.
+    </p>
+  </div>
+</section>
+{% endblock %}
