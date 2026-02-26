@@ -54,12 +54,14 @@ async def compare(request: Request, career1_id: str, career2_id: str):
             status_code=404,
         )
 
+    careers = get_all_careers_sorted()
     return templates.TemplateResponse(
         "pages/compare.html",
         {
             "request": request,
             "career1": c1,
             "career2": c2,
+            "careers": careers,
             "teto": TETO_CONSTITUCIONAL,
             "page_title": f"{c1.name} vs {c2.name} — OctoWage",
             "page_description": f"Compare salários: {c1.name} (R$ {c1.salary_real:,.0f}) vs {c2.name} (R$ {c2.salary_real:,.0f})",

@@ -11,6 +11,37 @@
       </p>
     </div>
 
+    <!-- Seletor dinâmico para nova comparação -->
+    <div class="card mt-lg" style="padding: var(--space-md) var(--space-lg); max-width: 700px; margin-left: auto; margin-right: auto; background: var(--color-bg); border: 1px solid var(--color-border);">
+      <p class="text-muted text-center" style="font-size: 0.8rem; margin-bottom: var(--space-sm);">Trocar comparação:</p>
+      <div style="display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-sm); justify-content: center;">
+        <div style="flex: 1; min-width: 160px;">
+          <select id="career-select-1" aria-label="Carreira 1" style="width: 100%; padding: 8px 10px; border: 2px solid var(--color-border); border-radius: 8px; font-size: 0.9rem; background: var(--color-surface); color: var(--color-text); cursor: pointer;">
+            {% for career in careers %}
+            <option value="{{ career.id }}" {% if career.id == career1.id %}selected{% endif %}>{{ career.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <span style="font-weight: 700; font-size: 1rem; color: var(--color-text-muted); padding-bottom: 6px;">vs</span>
+
+        <div style="flex: 1; min-width: 160px;">
+          <select id="career-select-2" aria-label="Carreira 2" style="width: 100%; padding: 8px 10px; border: 2px solid var(--color-border); border-radius: 8px; font-size: 0.9rem; background: var(--color-surface); color: var(--color-text); cursor: pointer;">
+            {% for career in careers %}
+            <option value="{{ career.id }}" {% if career.id == career2.id %}selected{% endif %}>{{ career.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <button class="btn btn--primary" style="padding: 8px 20px; white-space: nowrap;" onclick="compareCareiras()">
+          Comparar
+        </button>
+      </div>
+      <p id="compare-error" style="color: var(--color-danger); font-size: 0.8rem; margin-top: var(--space-xs); display: none; text-align: center;">
+        Selecione duas carreiras diferentes.
+      </p>
+    </div>
+
     <!-- Comparação visual lado a lado -->
     <div class="compare-layout mt-xl">
 
@@ -232,9 +263,9 @@
       </details>
     </div>
 
-    <!-- Outras comparações -->
+    <!-- Outras comparações populares -->
     <div class="mt-xl text-center">
-      <p class="text-muted mb-md">Outras comparações:</p>
+      <p class="text-muted mb-md" style="font-size: 0.85rem;">Comparações populares:</p>
       <div class="flex flex--center flex--wrap flex--gap-sm">
         <a href="/comparar/professor-vs-juiz_media" class="btn btn--sm btn--outline">Professor vs Juiz</a>
         <a href="/comparar/enfermeiro-vs-procurador_mp" class="btn btn--sm btn--outline">Enfermeiro vs Procurador</a>
@@ -245,7 +276,34 @@
       </div>
     </div>
 
+    <!-- Sugira uma carreira -->
+    <div class="card mt-lg text-center" style="padding: var(--space-lg); border: 2px dashed var(--color-border); background: var(--color-bg); max-width: 640px; margin-left: auto; margin-right: auto;">
+      <p style="font-size: 1.1rem; margin-bottom: var(--space-xs);">
+        Sentiu falta de alguma carreira?
+      </p>
+      <p class="text-muted" style="font-size: 0.85rem;">
+        Sugira novas carreiras para incluirmos nas comparações.
+      </p>
+      <a href="https://github.com/BrunnoML/OctoWage/issues/new?title=Sugest%C3%A3o%20de%20carreira%3A%20%5Bnome%20do%20cargo%5D&body=**Carreira%20sugerida%3A**%20%0A%0A**Sal%C3%A1rio%20base%3A**%20R%24%20%0A%0A**Fonte%20oficial%3A**%20%0A%0A**Observa%C3%A7%C3%B5es%3A**%20" target="_blank" rel="noopener" class="btn btn--outline" style="font-size: 0.85rem; margin-top: var(--space-sm);">
+        Sugerir carreira
+      </a>
+    </div>
+
   </div>
 </section>
+
+<script>
+function compareCareiras() {
+  var c1 = document.getElementById('career-select-1').value;
+  var c2 = document.getElementById('career-select-2').value;
+  var err = document.getElementById('compare-error');
+  if (c1 === c2) {
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+  window.location.href = '/comparar/' + c1 + '-vs-' + c2;
+}
+</script>
 
 {% endblock %}
