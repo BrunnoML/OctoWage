@@ -56,7 +56,22 @@ a:hover {
 h1 { font: var(--font-h1); color: var(--color-primary); }
 h2 { font: var(--font-h2); color: var(--color-primary); }
 h3 { font: var(--font-h3); color: var(--color-text); }
-p { margin-bottom: var(--space-md); }
+p {
+  margin-bottom: var(--space-md);
+  text-align: justify;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+/* Exceções: manter centralizado onde faz sentido */
+.text-center p,
+.hero p,
+.footer p,
+.footer__bottom p,
+.stat-card p,
+.cost-item p {
+  text-align: center;
+}
 small { font: var(--font-small); color: var(--color-text-muted); }
 
 /* Valores monetários */

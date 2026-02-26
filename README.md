@@ -25,13 +25,15 @@ O OctoWage resolve isso: agrega dados de fontes oficiais públicas e apresenta d
 
 ## Funcionalidades
 
-- **Comparação visual** — Barras proporcionais mostrando salários reais vs teto constitucional
+- **Comparação visual** — Barras proporcionais mostrando salários reais vs teto constitucional (10 carreiras)
 - **Raio-X do contracheque** — Decomposição: salário base vs penduricalhos
-- **Comparador cross-setor** — Professor vs Juiz, Enfermeiro vs Procurador, PM vs Delegado
-- **Comparação internacional** — Brasil vs EUA, Alemanha, Portugal, Japão (câmbio em tempo real)
+- **Comparador dinâmico** — Seletor com dropdown para comparar qualquer par de carreiras lado a lado
+- **Comparação internacional** — 12 países (câmbio em tempo real via AwesomeAPI/BCB) com insights automáticos
 - **Custo da desigualdade** — Quantos professores/enfermeiros/PMs caberiam no orçamento dos supersalários
 - **Risco ocupacional** — Metodologia com 4 indicadores e fontes oficiais (CLT, NRs, FBSP)
+- **Sugira uma carreira** — Engajamento da comunidade via issues no GitHub
 - **Fontes auditáveis** — Cada número tem link direto para a fonte oficial
+- **Termos de Uso e Política de Privacidade** — LGPD-compliant, prontos para produção
 - **Acessibilidade** — VLibras (Libras), WCAG AA, navegação por teclado, mobile-first
 
 ## Stack
@@ -42,7 +44,8 @@ O OctoWage resolve isso: agrega dados de fontes oficiais públicas e apresenta d
 | Frontend | Jinja2 (SSR) · HTMX · CSS nativo (custom properties) |
 | Gráficos | Plotly.js / Chart.js (lazy loading) |
 | Banco | PostgreSQL 16+ (futuro — MVP usa dados estáticos validados) |
-| Infra | Docker · Alembic (migrações) |
+| Infra | Docker · Nginx · Let's Encrypt · Alembic (migrações) |
+| Deploy | VPS Ubuntu 24.04 · Docker Compose |
 
 **Sem jQuery. Sem Bootstrap. Sem Tailwind. Sem frameworks JS pesados.**
 
@@ -65,6 +68,8 @@ Os valores dessas carreiras são **médias nacionais estimadas** a partir de tab
 
 ## Quickstart
 
+### Desenvolvimento local
+
 ```bash
 # Clonar
 git clone https://github.com/BrunnoML/octowage.git
@@ -76,14 +81,22 @@ source .venv/bin/activate  # Linux/Mac
 # .venv\Scripts\activate   # Windows
 
 # Dependências
-pip install -r requirements.txt
+pip install .
 
 # Rodar
 uvicorn app.main:app --reload
 
-# Acessar
-# http://localhost:8000
+# Acessar: http://localhost:8000
 ```
+
+### Docker (produção)
+
+```bash
+docker compose up -d --build
+# Acessar: http://localhost (ou https://octowage.com.br em produção)
+```
+
+Guia completo de deploy na VPS: [`docs/DEPLOY_v1.0.md`](docs/DEPLOY_v1.0.md)
 
 ## Estrutura do projeto
 
@@ -92,27 +105,25 @@ app/
 ├── main.py              # Entry point FastAPI
 ├── config.py            # Configurações (Pydantic Settings)
 ├── routes/
-│   ├── pages.py         # Rotas SSR (Jinja2)
+│   ├── pages.py         # Rotas SSR (/, /comparar, /sobre, /termos, /privacidade)
 │   └── fragments.py     # Fragmentos HTMX (barras, cards, detalhes)
 ├── services/
-│   ├── salary_data.py   # Dados salariais + metodologia de risco
-│   └── exchange_rate.py # Cotações em tempo real (AwesomeAPI → BCB → fallback)
+│   ├── salary_data.py   # 10 carreiras + metodologia de risco (4 indicadores)
+│   └── exchange_rate.py # 9 moedas em tempo real (AwesomeAPI → BCB → fallback)
 └── templates/
-    ├── base.html        # Layout base (header, footer, VLibras, meta tags)
-    ├── pages/           # Páginas completas (home, comparar, sobre)
-    ├── fragments/       # Fragmentos HTMX (barras, calculadora, raio-x)
-    └── components/      # Componentes reutilizáveis
+    ├── base.html        # Layout (header, footer, VLibras, meta tags)
+    ├── pages/           # home, compare, about, terms, privacy
+    └── fragments/       # Fragmentos HTMX (barras, calculadora, raio-x)
 static/
-├── css/
-│   ├── variables.css    # Design tokens (cores, tipografia, espaçamento)
-│   ├── base.css         # Reset + tipografia + layout
-│   ├── components.css   # Cards, barras, botões, hero, footer
-│   └── layouts.css      # Grid, flex, comparação
-├── js/
-│   └── htmx.min.js
-└── img/
-    ├── favicon.svg
-    └── logo-versions.html
+├── css/                 # CSS nativo (custom properties, mobile-first)
+├── js/                  # HTMX (~14KB)
+└── img/                 # Logo, favicon, banners
+deploy/
+├── nginx.conf           # Reverse proxy + SSL + gzip + cache
+├── setup-vps.sh         # Setup inicial da VPS (1x)
+├── start.sh             # Primeiro deploy com SSL (1x)
+└── update.sh            # Atualizar após cada push
+docs/                    # Arquitetura, pesquisa, jurídico, deploy
 ```
 
 ## Documentação
@@ -125,6 +136,7 @@ static/
 | `docs/API_VALIDATION_v1.0.md` | Validação das fontes de dados e APIs |
 | `docs/COMPETITIVE_ANALYSIS_v1.0.md` | Análise competitiva e diferenciais |
 | `docs/LEGAL_ANALYSIS_v1.0.md` | Análise jurídica, LGPD e proteção legal |
+| `docs/DEPLOY_v1.0.md` | Guia de deploy na VPS (Docker + Nginx + SSL) |
 
 ## Fundamento jurídico
 
@@ -153,7 +165,11 @@ Não tem vinculação com nenhuma instituição pública ou privada. Todos os da
 
 ## Status
 
-**MVP em desenvolvimento** — dados estáticos validados com fontes oficiais. A fase 2 incluirá consumo direto das APIs do DadosJusBr e Portal da Transparência.
+**MVP pronto para deploy** — 10 carreiras com dados validados, comparação internacional com 12 países, seletor dinâmico, termos de uso e privacidade (LGPD). Deploy configurado para VPS com Docker + Nginx + SSL.
+
+**Domínio:** [octowage.com.br](https://octowage.com.br) (em configuração)
+
+**Próximos passos:** Consumo direto das APIs do DadosJusBr e Portal da Transparência, dados individualizados por tribunal, progressão de carreira dentro de cada cargo.
 
 ## Licença
 
@@ -161,4 +177,4 @@ Todos os direitos reservados por enquanto. Licença open source será definida a
 
 ---
 
-Feito com dados públicos, código aberto e cidadania. 🇧🇷
+<p align="center">Feito com ☕ por <a href="https://www.brunnoml.com.br"><strong>BrunnoML</strong></a></p>

@@ -168,22 +168,22 @@
       </p>
     </div>
 
-    <div class="grid grid--2 grid--4-desktop" style="gap: var(--space-lg);">
+    <div class="grid grid--2" style="gap: var(--space-lg); grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));">
       {% for country in international %}
-      <div class="card" style="text-align: center; padding: var(--space-lg);">
-        <p style="font-size: 2rem; margin-bottom: var(--space-xs);">{{ country.flag }}</p>
-        <p style="font-weight: 700; font-size: 1.1rem; margin-bottom: var(--space-sm);">{{ country.country }}</p>
-        <p style="font-size: 2rem; font-weight: 800; color: {% if country.ratio > 10 %}var(--color-danger){% elif country.ratio > 3 %}var(--color-warning){% else %}var(--color-success){% endif %};">
+      <div class="card" style="text-align: center; padding: var(--space-md) var(--space-sm);">
+        <p style="font-size: 1.75rem; margin-bottom: var(--space-xs);">{{ country.flag }}</p>
+        <p style="font-weight: 700; font-size: 1rem; margin-bottom: var(--space-xs);">{{ country.country }}</p>
+        <p style="font-size: 1.75rem; font-weight: 800; color: {% if country.ratio > 10 %}var(--color-danger){% elif country.ratio > 3 %}var(--color-warning){% else %}var(--color-success){% endif %};">
           {{ country.ratio }}x
         </p>
-        <p class="text-muted" style="font-size: 0.8rem;">juiz vs professor</p>
-        <div style="margin-top: var(--space-md); font-size: 0.8rem; text-align: left;">
-          <p><strong>Juiz:</strong> R$ {{ country.judge_salary_brl|brl(0) }}/mês
+        <p class="text-muted" style="font-size: 0.75rem;">juiz vs professor</p>
+        <div style="margin-top: var(--space-sm); font-size: 0.75rem; text-align: left;">
+          <p><strong>Juiz:</strong> R$ {{ country.judge_salary_brl|brl(0) }}
             {% if country.original_currency and country.original_currency != 'BRL' %}
             <span class="text-muted">({{ country.original_currency }} {{ country.judge_original|brl(0) }})</span>
             {% endif %}
           </p>
-          <p><strong>Professor:</strong> R$ {{ country.teacher_salary_brl|brl(0) }}/mês
+          <p><strong>Prof:</strong> R$ {{ country.teacher_salary_brl|brl(0) }}
             {% if country.original_currency and country.original_currency != 'BRL' %}
             <span class="text-muted">({{ country.original_currency }} {{ country.teacher_original|brl(0) }})</span>
             {% endif %}
@@ -193,30 +193,57 @@
       {% endfor %}
     </div>
 
+    <!-- Insights da comparação internacional -->
+    {% if international|length > 2 %}
+    {% set maior = international|first %}
+    {% set menor = international|last %}
+    <div class="card mt-lg" style="padding: var(--space-lg); background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-bg) 100%); border-left: 4px solid var(--color-accent);">
+      <h3 style="font-size: 1rem; margin-bottom: var(--space-sm); color: var(--color-primary);">
+        O que os números mostram
+      </h3>
+      <div style="font-size: 0.9rem; line-height: 1.7;">
+        <p>
+          <strong style="color: var(--color-danger);">{{ maior.flag }} {{ maior.country }}</strong> lidera a desigualdade:
+          um juiz ganha <strong>{{ maior.ratio }}x</strong> mais que um professor.
+          No outro extremo, <strong style="color: var(--color-success);">{{ menor.flag }} {{ menor.country }}</strong> tem a menor diferença,
+          com proporção de <strong>{{ menor.ratio }}x</strong>.
+        </p>
+        <p style="margin-bottom: 0;">
+          Isso significa que a desigualdade salarial entre juízes e professores no {{ maior.country }} é
+          <strong>{{ (maior.ratio / menor.ratio)|round(1) }}x maior</strong> que na {{ menor.country }}.
+          {% if maior.country == 'Brasil' %}
+          O Brasil está na posição mais desigual entre todos os países analisados.
+          {% endif %}
+        </p>
+      </div>
+    </div>
+    {% endif %}
+
     <!-- Cotações em tempo real -->
     {% if exchange_rates %}
-    <div class="card mt-lg" style="padding: var(--space-md); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); font-size: 0.85rem;">
-      <span style="font-weight: 600; color: var(--color-text-muted);">Câmbio usado:</span>
-      {% for currency, rate in exchange_rates.items() %}
-      <span style="display: inline-flex; align-items: center; gap: 4px;">
-        {{ rate.flag }}
-        <strong>{{ currency }}/BRL:</strong>
-        R$ {{ rate.rate|brl(4) }}
-      </span>
-      {% endfor %}
-      <span class="text-muted" style="font-size: 0.75rem;">
-        Fonte:
-        {% if exchange_rates.values()|list and exchange_rates.values()|list|first %}
-          <a href="{{ (exchange_rates.values()|list|first).source_url }}" target="_blank" rel="noopener">
-            {{ (exchange_rates.values()|list|first).source }}
-          </a>
-        {% endif %}
-        · Atualizado:
+    <details class="mt-lg">
+      <summary class="card" style="padding: var(--space-sm) var(--space-md); cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--color-text-muted); list-style: none; display: flex; align-items: center; gap: var(--space-sm);">
+        <span>Câmbio usado ({{ exchange_rates|length }} moedas)</span>
+        <span style="font-weight: 400; font-size: 0.75rem;">— clique para expandir</span>
+      </summary>
+      <div class="card" style="padding: var(--space-md); margin-top: 4px; display: flex; flex-wrap: wrap; gap: var(--space-sm) var(--space-lg); font-size: 0.8rem;">
         {% for currency, rate in exchange_rates.items() %}
-          {{ rate.updated_at[:16] | replace('T', ' ') }}{% if not loop.last %},{% endif %}
+        <span style="display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
+          {{ rate.flag }}
+          <strong>{{ currency }}:</strong>
+          R$ {{ rate.rate|brl(4) }}
+        </span>
         {% endfor %}
-      </span>
-    </div>
+        <span class="text-muted" style="font-size: 0.7rem; width: 100%; display: block;">
+          Fonte:
+          {% if exchange_rates.values()|list and exchange_rates.values()|list|first %}
+            <a href="{{ (exchange_rates.values()|list|first).source_url }}" target="_blank" rel="noopener">
+              {{ (exchange_rates.values()|list|first).source }}
+            </a>
+          {% endif %}
+        </span>
+      </div>
+    </details>
     {% endif %}
 
     <div class="source-badge mt-lg">
@@ -227,7 +254,7 @@
       <a href="https://economia.awesomeapi.com.br" target="_blank" rel="noopener">AwesomeAPI</a> ·
       <a href="https://dadosabertos.bcb.gov.br" target="_blank" rel="noopener">BCB PTAX</a>
       <span class="text-muted" style="font-size: 0.75rem; display: block; margin-top: 4px;">
-        Valores internacionais convertidos para R$ com câmbio atualizado em tempo real. Comparação aproximada.
+        Valores internacionais convertidos para R$ com câmbio atualizado em tempo real. Comparação aproximada — fontes detalhadas ao passar o mouse sobre cada card.
       </span>
     </div>
   </div>
@@ -296,21 +323,85 @@
   </div>
 </section>
 
-<!-- SEÇÃO: CTA -->
+<!-- SEÇÃO: Comparador dinâmico -->
 <section class="section text-center">
   <div class="container">
     <h2>Compare carreiras lado a lado</h2>
     <p class="text-muted mb-lg" style="max-width: 680px; margin-left: auto; margin-right: auto;">
-      Veja a diferença de salário, formação exigida, jornada e risco entre qualquer par de carreiras públicas.
+      Escolha duas carreiras e veja a diferença de salário, formação exigida, jornada e risco ocupacional.
     </p>
-    <div class="flex flex--center flex--wrap flex--gap-sm">
-      <a href="/comparar/professor-vs-juiz_media" class="btn btn--primary">Professor vs Juiz</a>
-      <a href="/comparar/enfermeiro-vs-procurador_mp" class="btn btn--outline">Enfermeiro vs Procurador</a>
-      <a href="/comparar/soldado_pm-vs-juiz_tjsp" class="btn btn--outline">Soldado PM vs Juiz TJSP</a>
-      <a href="/comparar/agente_pc-vs-agente_pf" class="btn btn--outline">Agente PC vs Agente PF</a>
-      <a href="/comparar/agente_pc-vs-delegado_pc" class="btn btn--outline">Agente PC vs Delegado PC</a>
+
+    <!-- Seletor dinâmico -->
+    <div class="card" style="padding: var(--space-lg); max-width: 640px; margin: 0 auto;">
+      <div style="display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-md); justify-content: center;">
+        <div style="flex: 1; min-width: 180px; text-align: left;">
+          <label for="career-select-1" style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--color-text-muted); margin-bottom: var(--space-xs);">Carreira 1</label>
+          <select id="career-select-1" style="width: 100%; padding: 10px 12px; border: 2px solid var(--color-border); border-radius: 8px; font-size: 0.95rem; background: var(--color-surface); color: var(--color-text); cursor: pointer;">
+            {% for career in careers %}
+            <option value="{{ career.id }}" {% if career.id == 'professor' %}selected{% endif %}>{{ career.name }} — R$ {{ career.salary_real|brl(0) }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <span style="font-weight: 700; font-size: 1.1rem; color: var(--color-text-muted); padding-bottom: 8px;">vs</span>
+
+        <div style="flex: 1; min-width: 180px; text-align: left;">
+          <label for="career-select-2" style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--color-text-muted); margin-bottom: var(--space-xs);">Carreira 2</label>
+          <select id="career-select-2" style="width: 100%; padding: 10px 12px; border: 2px solid var(--color-border); border-radius: 8px; font-size: 0.95rem; background: var(--color-surface); color: var(--color-text); cursor: pointer;">
+            {% for career in careers %}
+            <option value="{{ career.id }}" {% if career.id == 'juiz_media' %}selected{% endif %}>{{ career.name }} — R$ {{ career.salary_real|brl(0) }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <button id="btn-compare" class="btn btn--primary" style="padding: 10px 24px; white-space: nowrap;" onclick="compareCareiras()">
+          Comparar
+        </button>
+      </div>
+
+      <p id="compare-error" style="color: var(--color-danger); font-size: 0.8rem; margin-top: var(--space-sm); display: none;">
+        Selecione duas carreiras diferentes para comparar.
+      </p>
+    </div>
+
+    <!-- Sugestões rápidas -->
+    <div style="margin-top: var(--space-lg);">
+      <p class="text-muted" style="font-size: 0.8rem; margin-bottom: var(--space-sm);">Comparações populares:</p>
+      <div class="flex flex--center flex--wrap flex--gap-sm">
+        <a href="/comparar/professor-vs-juiz_media" class="btn btn--outline" style="font-size: 0.85rem;">Professor vs Juiz</a>
+        <a href="/comparar/enfermeiro-vs-procurador_mp" class="btn btn--outline" style="font-size: 0.85rem;">Enfermeiro vs Procurador</a>
+        <a href="/comparar/soldado_pm-vs-juiz_tjsp" class="btn btn--outline" style="font-size: 0.85rem;">Soldado PM vs Juiz TJSP</a>
+      </div>
+    </div>
+
+    <!-- Sugira uma carreira -->
+    <div class="card mt-lg" style="padding: var(--space-lg); border: 2px dashed var(--color-border); background: var(--color-bg); max-width: 640px; margin-left: auto; margin-right: auto;">
+      <p style="font-size: 1.25rem; margin-bottom: var(--space-xs);">
+        Sentiu falta de alguma carreira?
+      </p>
+      <p class="text-muted" style="font-size: 0.85rem;">
+        Técnico judiciário, analista, coronel PM, perito criminal, médico do SUS...
+        Sugira novas carreiras para incluirmos nas comparações. Basta abrir uma issue no GitHub com o nome do cargo e a fonte oficial do salário.
+      </p>
+      <a href="https://github.com/BrunnoML/OctoWage/issues/new?title=Sugest%C3%A3o%20de%20carreira%3A%20%5Bnome%20do%20cargo%5D&body=**Carreira%20sugerida%3A**%20%0A%0A**Sal%C3%A1rio%20base%3A**%20R%24%20%0A%0A**Fonte%20oficial%3A**%20%0A%0A**Observa%C3%A7%C3%B5es%3A**%20" target="_blank" rel="noopener" class="btn btn--outline" style="font-size: 0.85rem; margin-top: var(--space-sm);">
+        Sugerir carreira
+      </a>
     </div>
   </div>
 </section>
+
+<script>
+function compareCareiras() {
+  var c1 = document.getElementById('career-select-1').value;
+  var c2 = document.getElementById('career-select-2').value;
+  var err = document.getElementById('compare-error');
+  if (c1 === c2) {
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+  window.location.href = '/comparar/' + c1 + '-vs-' + c2;
+}
+</script>
 
 {% endblock %}

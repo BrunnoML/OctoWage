@@ -1,0 +1,25 @@
+# Git
+.git
+.gitignore
+
+# Docs
+docs/
+*.md
+LICENSE
+
+# Dev
+.env
+.env.example
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# Deploy (não precisa dentro do container)
+deploy/
+CLAUDE.md
