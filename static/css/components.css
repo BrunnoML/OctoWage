@@ -344,8 +344,14 @@
 .hero__subtitle {
   font: var(--font-body);
   color: rgba(255, 255, 255, 0.8);
-  max-width: 600px;
+  max-width: 80%;
   margin: 0 auto var(--space-lg);
+}
+
+@media (min-width: 1440px) {
+  .hero__subtitle {
+    max-width: 900px;
+  }
 }
 
 .hero__stats {
@@ -556,14 +562,15 @@
 
 /* === FONTE/SOURCE BADGE === */
 .source-badge {
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-xs);
   font: var(--font-small);
   color: var(--color-text-muted);
-  padding: 2px var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
   background: var(--color-bg);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
 }
 
@@ -583,7 +590,7 @@
 .section-header__subtitle {
   font: var(--font-body);
   color: var(--color-text-muted);
-  max-width: 640px;
+  max-width: 100%;
 }
 
 /* === DETAIL PANEL (Raio-X) === */

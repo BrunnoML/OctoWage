@@ -82,6 +82,10 @@ small { font: var(--font-small); color: var(--color-text-muted); }
   padding: 0 var(--container-padding);
 }
 
+.container--narrow {
+  max-width: var(--container-narrow);
+}
+
 .section {
   padding: var(--section-gap) 0;
 }

@@ -62,6 +62,7 @@
 
   /* === LAYOUT === */
   --container-max: 1200px;
+  --container-narrow: 860px;
   --container-padding: var(--space-md);
   --section-gap: var(--space-2xl);
 
