@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="static/img/octowage-banner.png" alt="OctoWage — Transparência salarial do setor público brasileiro" width="480">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="static/img/octowage-banner-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="static/img/octowage-banner-light.png">
+    <img src="static/img/octowage-banner-light.png" alt="OctoWage — Transparência salarial do setor público brasileiro" width="480">
+  </picture>
 </p>
 
 <p align="center">
