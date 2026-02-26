@@ -173,7 +173,7 @@ Não tem vinculação com nenhuma instituição pública ou privada. Todos os da
 
 ## Licença
 
-Todos os direitos reservados por enquanto. Licença open source será definida antes do lançamento público.
+Distribuído sob a licença [MIT](LICENSE). Veja o arquivo `LICENSE` para mais detalhes.
 
 ---
 

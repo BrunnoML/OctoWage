@@ -12,19 +12,52 @@
     </p>
 
     <div class="hero__stats">
-      <div class="stat-card">
+      <div class="stat-card" title="Soma das remunerações acima do teto de R$ 46.366,19 pagas a servidores públicos entre ago/2024 e jul/2025.">
         <p class="stat-card__value">R$ {{ (custo_anual / 1000000000)|brl(0) }} bi</p>
         <p class="stat-card__label">Custo anual dos supersalários</p>
       </div>
-      <div class="stat-card">
+      <div class="stat-card" title="Servidores ativos e inativos cuja remuneração total ultrapassa o teto constitucional, incluindo Judiciário, MP e Executivo.">
         <p class="stat-card__value">{{ servidores_acima|brl_int }}</p>
         <p class="stat-card__label">Servidores acima do teto</p>
       </div>
-      <div class="stat-card">
+      <div class="stat-card" title="O teto constitucional é o valor máximo que qualquer servidor público pode receber por mês. É igual ao salário de um Ministro do STF (CF Art. 37, XI).">
         <p class="stat-card__value">R$ {{ teto|brl }}</p>
         <p class="stat-card__label">Teto constitucional</p>
       </div>
     </div>
+
+    <!-- Explicação + Fonte dos dados da hero -->
+    <details style="margin-top: var(--space-lg); text-align: left; max-width: 720px; margin-left: auto; margin-right: auto;">
+      <summary style="cursor: pointer; font-size: 0.8rem; color: rgba(255,255,255,0.6); text-align: center; list-style: none;">
+        De onde vêm esses números? (clique para ver)
+      </summary>
+      <div style="margin-top: var(--space-md); padding: var(--space-md); background: rgba(255,255,255,0.08); border-radius: 8px; font-size: 0.8rem; color: rgba(255,255,255,0.8); line-height: 1.7;">
+        <p>
+          <strong style="color: white;">O que é o teto constitucional?</strong>
+          É o valor máximo que qualquer servidor público brasileiro pode receber por mês.
+          A Constituição Federal (Art. 37, XI) define que ninguém no serviço público pode ganhar mais
+          do que um Ministro do Supremo Tribunal Federal (STF).
+          Hoje esse valor é <strong>R$ {{ teto|brl }}</strong>.
+          Na prática, milhares de servidores recebem acima desse limite através de verbas extras
+          chamadas "penduricalhos" (auxílios, gratificações e indenizações que não são contabilizadas como salário).
+        </p>
+        <p>
+          <strong style="color: white;">R$ {{ (custo_anual / 1000000000)|brl(0) }} bilhões e {{ servidores_acima|brl_int }} servidores:</strong>
+          Dados do estudo
+          <a href="https://republica.org/emdados/conteudo/supersalarios-no-servico-publico-brasil-lidera-ranking/" target="_blank" rel="noopener" style="color: var(--color-accent-light);">Benchmark Internacional de Supersalários</a>,
+          conduzido por Sérgio Guedes-Reis (UCSD/CGU) e encomendado pelo
+          <a href="https://republica.org" target="_blank" rel="noopener" style="color: var(--color-accent-light);">Movimento Pessoas à Frente / República.org</a>.
+          Período analisado: agosto/2024 a julho/2025.
+          O estudo comparou 10 países e concluiu que o Brasil lidera o ranking mundial de supersalários.
+        </p>
+        <p style="margin-bottom: 0;">
+          <strong style="color: white;">Base legal:</strong>
+          CF Art. 37, XI (teto remuneratório) ·
+          CF Art. 39, §4º (subsídio em parcela única) ·
+          <a href="https://noticias.stf.jus.br/postsnoticias/stf-proibe-a-criacao-de-novos-penduricalhos-que-ultrapassem-o-teto-constitucional-no-servico-publico/" target="_blank" rel="noopener" style="color: var(--color-accent-light);">STF — Decisão sobre penduricalhos (fev/2026)</a>
+        </p>
+      </div>
+    </details>
   </div>
 </section>
 
