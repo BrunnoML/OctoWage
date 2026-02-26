@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" fill="none">
+  <!-- Logo OctoWage v8 — versão horizontal para README/docs -->
+
+  <!-- Cabeça — círculo roxo sólido -->
+  <circle cx="40" cy="28" r="20" fill="#7C3AED"/>
+  <!-- Olho esquerdo — só branco, sem pupila -->
+  <ellipse cx="31" cy="26" rx="6" ry="4" transform="rotate(15 31 26)" fill="white"/>
+  <!-- Olho direito — espelhado -->
+  <ellipse cx="49" cy="26" rx="6" ry="4" transform="rotate(-15 49 26)" fill="white"/>
+  <!-- Tentáculos = 5 barras de gráfico -->
+  <rect x="20" y="46" width="6" height="14" rx="3" fill="#34D399"/>
+  <rect x="28" y="42" width="6" height="20" rx="3" fill="#10B981"/>
+  <rect x="36" y="38" width="6" height="26" rx="3" fill="#059669"/>
+  <rect x="44" y="43" width="6" height="18" rx="3" fill="#10B981"/>
+  <rect x="52" y="47" width="6" height="13" rx="3" fill="#34D399"/>
+
+  <!-- Texto "OctoWage" -->
+  <text x="80" y="46" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="36" font-weight="700" fill="#1B1B2F">
+    Octo<tspan fill="#7C3AED">Wage</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text x="81" y="66" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="#64748B">
+    Transparência salarial do setor público brasileiro
+  </text>
+</svg>

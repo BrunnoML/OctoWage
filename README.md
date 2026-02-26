@@ -1,6 +1,10 @@
-# OctoWage 🐙
+<p align="center">
+  <img src="static/img/octowage-banner.png" alt="OctoWage — Transparência salarial do setor público brasileiro" width="480">
+</p>
 
-**Plataforma open source de transparência salarial do setor público brasileiro.**
+<p align="center">
+  <strong>Plataforma open source de transparência salarial do setor público brasileiro.</strong>
+</p>
 
 O OctoWage visualiza a desigualdade entre supersalários (Judiciário/MP) e pisos de carreiras essenciais — professores, enfermeiros e policiais. Feito para o cidadão comum, não para desenvolvedores.
 
@@ -115,7 +119,7 @@ O OctoWage exibe apenas dados públicos amparados por:
 - **STF Tema 483** — ARE 652.777/SP (publicidade de remuneração de servidores)
 - **CF Art. 37** — Princípios da publicidade e transparência
 
-Não exibimos dados pessoais sensíveis (CPF, endereço, saúde). Apenas nome, cargo e remuneração, conforme permitido.
+Não exibimos dados pessoais sensíveis (CPF, endereço, saúde). Atualmente trabalhamos apenas com dados agregados por carreira. Quando houver dados individualizados (fase 2), serão limitados a cargo e remuneração, conforme permitido pelo STF.
 
 ## Ecossistema Octo*
 
