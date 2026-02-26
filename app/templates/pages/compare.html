@@ -41,10 +41,37 @@
             <p style="font-weight: 500;">{{ career1.weekly_hours }}h/semana</p>
           </div>
           <div>
-            <p class="text-muted" style="font-size: 0.8rem;">Risco</p>
+            <p class="text-muted" style="font-size: 0.8rem;">Risco ocupacional</p>
             <span class="risk-tag risk-tag--{{ career1.risk_level }}">
-              {{ career1.risk_level | replace('_', ' ') | title }}
+              {{ career1.risk_assessment.level_display }} ({{ career1.risk_assessment.score }} pts)
             </span>
+            <details style="margin-top: 6px; font-size: 0.75rem;">
+              <summary style="cursor: pointer; color: var(--color-primary-light);">Ver metodologia</summary>
+              <div style="margin-top: 8px; padding: 8px; background: var(--color-bg); border-radius: 6px;">
+                <p style="margin-bottom: 6px;">
+                  <strong>Adicional legal:</strong> {{ career1.risk_assessment.adicional_legal }} pts
+                  {% if career1.risk_assessment.adicional_legal == 2 %}(periculosidade 30%){% elif career1.risk_assessment.adicional_legal == 1 %}(insalubridade){% else %}(sem adicional){% endif %}
+                </p>
+                <p style="margin-bottom: 6px;">
+                  <strong>Mortalidade:</strong> {{ career1.risk_assessment.mortalidade }} pts
+                </p>
+                <p style="margin-bottom: 6px;">
+                  <strong>Exposição a violência:</strong> {{ career1.risk_assessment.exposicao_violencia }} pts
+                </p>
+                <p style="margin-bottom: 6px;">
+                  <strong>Jornada/condições:</strong> {{ career1.risk_assessment.jornada_condicoes }} pts
+                </p>
+                <p style="margin-top: 8px; color: var(--color-text-muted); font-style: italic;">
+                  {{ career1.risk_assessment.justificativa }}
+                </p>
+                <p style="margin-top: 6px;"><strong>Fontes:</strong></p>
+                <ul style="margin: 4px 0 0 16px;">
+                  {% for fonte in career1.risk_assessment.fontes %}
+                  <li>{{ fonte }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </details>
           </div>
           <div>
             <p class="text-muted" style="font-size: 0.8rem;">vs Teto</p>
@@ -88,10 +115,37 @@
             <p style="font-weight: 500;">{{ career2.weekly_hours }}h/semana</p>
           </div>
           <div>
-            <p class="text-muted" style="font-size: 0.8rem;">Risco</p>
+            <p class="text-muted" style="font-size: 0.8rem;">Risco ocupacional</p>
             <span class="risk-tag risk-tag--{{ career2.risk_level }}">
-              {{ career2.risk_level | replace('_', ' ') | title }}
+              {{ career2.risk_assessment.level_display }} ({{ career2.risk_assessment.score }} pts)
             </span>
+            <details style="margin-top: 6px; font-size: 0.75rem;">
+              <summary style="cursor: pointer; color: var(--color-primary-light);">Ver metodologia</summary>
+              <div style="margin-top: 8px; padding: 8px; background: var(--color-bg); border-radius: 6px;">
+                <p style="margin-bottom: 6px;">
+                  <strong>Adicional legal:</strong> {{ career2.risk_assessment.adicional_legal }} pts
+                  {% if career2.risk_assessment.adicional_legal == 2 %}(periculosidade 30%){% elif career2.risk_assessment.adicional_legal == 1 %}(insalubridade){% else %}(sem adicional){% endif %}
+                </p>
+                <p style="margin-bottom: 6px;">
+                  <strong>Mortalidade:</strong> {{ career2.risk_assessment.mortalidade }} pts
+                </p>
+                <p style="margin-bottom: 6px;">
+                  <strong>Exposição a violência:</strong> {{ career2.risk_assessment.exposicao_violencia }} pts
+                </p>
+                <p style="margin-bottom: 6px;">
+                  <strong>Jornada/condições:</strong> {{ career2.risk_assessment.jornada_condicoes }} pts
+                </p>
+                <p style="margin-top: 8px; color: var(--color-text-muted); font-style: italic;">
+                  {{ career2.risk_assessment.justificativa }}
+                </p>
+                <p style="margin-top: 6px;"><strong>Fontes:</strong></p>
+                <ul style="margin: 4px 0 0 16px;">
+                  {% for fonte in career2.risk_assessment.fontes %}
+                  <li>{{ fonte }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </details>
           </div>
           <div>
             <p class="text-muted" style="font-size: 0.8rem;">vs Teto</p>
@@ -122,6 +176,60 @@
         que um(a) <strong>{{ menor.name }}</strong>.
         A diferença mensal é de <strong class="money">R$ {{ (maior.salary_real - menor.salary_real)|brl(0) }}</strong>.
       </p>
+    </div>
+
+    <!-- Nota metodológica de risco -->
+    <div class="card mt-lg" style="background: var(--color-bg); border: 1px solid var(--color-border);">
+      <details>
+        <summary style="cursor: pointer; font-weight: 600; font-size: 0.9rem; padding: var(--space-sm);">
+          Como calculamos o risco ocupacional?
+        </summary>
+        <div style="padding: 0 var(--space-md) var(--space-md); font-size: 0.85rem; line-height: 1.6;">
+          <p style="margin-bottom: var(--space-sm);">
+            O OctoWage usa a <strong>Metodologia de Risco Ocupacional v1.0</strong>, baseada em 4 indicadores objetivos com fontes oficiais:
+          </p>
+          <table style="width: 100%; border-collapse: collapse; margin: var(--space-sm) 0; font-size: 0.8rem;">
+            <thead>
+              <tr style="background: var(--color-surface); text-align: left;">
+                <th style="padding: 8px; border-bottom: 2px solid var(--color-border);">Indicador</th>
+                <th style="padding: 8px; border-bottom: 2px solid var(--color-border);">Pontos</th>
+                <th style="padding: 8px; border-bottom: 2px solid var(--color-border);">Fonte</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding: 8px; border-bottom: 1px solid var(--color-border);">Adicional legal (periculosidade/insalubridade)</td>
+                <td style="padding: 8px; border-bottom: 1px solid var(--color-border);">0-2</td>
+                <td style="padding: 8px; border-bottom: 1px solid var(--color-border);">CLT Art. 193-195, NR-15, NR-16</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; border-bottom: 1px solid var(--color-border);">Mortalidade em serviço</td>
+                <td style="padding: 8px; border-bottom: 1px solid var(--color-border);">0-3</td>
+                <td style="padding: 8px; border-bottom: 1px solid var(--color-border);">FBSP 19º Anuário (2025), COFEN</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; border-bottom: 1px solid var(--color-border);">Exposição a violência/agentes nocivos</td>
+                <td style="padding: 8px; border-bottom: 1px solid var(--color-border);">0-2</td>
+                <td style="padding: 8px; border-bottom: 1px solid var(--color-border);">NR-15, NR-16, regulamentos</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px;">Jornada e condições adversas</td>
+                <td style="padding: 8px;">0-1</td>
+                <td style="padding: 8px;">CLT, estatutos das carreiras</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            <strong>Classificação:</strong> Baixo (0-1 pts) · Médio (2-3 pts) · Alto (4-5 pts) · Muito Alto (6+ pts)
+          </p>
+          <p style="margin-top: var(--space-sm); color: var(--color-text-muted);">
+            Esta metodologia foi desenvolvida pelo OctoWage com base em legislação trabalhista brasileira e dados do
+            <a href="https://forumseguranca.org.br/publicacoes/anuario-brasileiro-de-seguranca-publica/" target="_blank" rel="noopener" style="color: var(--color-primary-light);">Fórum Brasileiro de Segurança Pública</a>.
+            Não é uma classificação oficial do governo — é uma ferramenta de comparação para o cidadão.
+            <a href="/sobre#metodologia-risco" style="color: var(--color-primary-light);">Saiba mais na página Sobre</a>.
+          </p>
+        </div>
+      </details>
     </div>
 
     <!-- Outras comparações -->
