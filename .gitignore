@@ -46,3 +46,6 @@ create_*.py
 
 # Claude/Cowork
 .claude/
+
+# VPS credentials (NUNCA commitar)
+VPS_CREDENTIALS.md
