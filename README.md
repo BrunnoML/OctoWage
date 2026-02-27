@@ -163,11 +163,22 @@ Desenvolvido por **Brunno ML** — graduando em Sistemas de Informação pela Es
 
 Não tem vinculação com nenhuma instituição pública ou privada. Todos os dados utilizados são públicos e acessíveis a qualquer cidadão pela internet.
 
+## Acessibilidade
+
+O OctoWage é pensado para **todos** os cidadãos brasileiros:
+
+- **VLibras** — Tradução automática para Libras (Língua Brasileira de Sinais) via widget do Governo Federal, atendendo ~10 milhões de pessoas surdas ou com deficiência auditiva no Brasil
+- **WCAG AA** — Contraste mínimo 4.5:1, foco visível, navegação por teclado
+- **Mobile-first** — Projetado para telas de 360px, com touch targets de 44x44px
+- **Sem hover-only** — Todas as interações funcionam em dispositivos touch
+- **Tipografia fluida** — `clamp()` para leitura confortável em qualquer tela
+- **Textos claros** — Siglas expandidas com `<abbr>`, conteúdo textual no HTML (compatível com leitores de tela e VLibras)
+
 ## Status
 
-**MVP pronto para deploy** — 10 carreiras com dados validados, comparação internacional com 12 países, seletor dinâmico, termos de uso e privacidade (LGPD). Deploy configurado para VPS com Docker + Nginx + SSL.
+**Em produção** — 10 carreiras com dados validados, comparação internacional com 12 países, comparador dinâmico, termos de uso e privacidade (LGPD), acessibilidade com VLibras.
 
-**Domínio:** [octowage.com.br](https://octowage.com.br) (em configuração)
+**Acesse:** [octowage.com.br](https://octowage.com.br)
 
 **Próximos passos:** Consumo direto das APIs do DadosJusBr e Portal da Transparência, dados individualizados por tribunal, progressão de carreira dentro de cada cargo.
 
@@ -177,4 +188,4 @@ Distribuído sob a licença [MIT](LICENSE). Veja o arquivo `LICENSE` para mais d
 
 ---
 
-<p align="center">Feito com ☕ por <a href="https://www.brunnoml.com.br"><strong>BrunnoML</strong></a></p>
+<p align="center">Feito com ☕ por <a href="https://github.com/BrunnoML"><strong>BrunnoML</strong></a></p>
